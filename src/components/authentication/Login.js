@@ -1,3 +1,6 @@
+// Authors: Billy Mathison
+// Page renders login form and when submitted verifies user's information before laoding home page
+
 import React, { Component } from "react"
 import { Button, Form, FormGroup, Label, Input } from "reactstrap"
 

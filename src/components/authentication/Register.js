@@ -1,3 +1,6 @@
+// Authors: Billy Mathison
+// Page renders register form and posts new user to API when submitted
+
 import React, { Component } from "react"
 import { Button, Label, Form, FormGroup, Input } from "reactstrap"
 
