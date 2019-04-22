@@ -1,42 +1,42 @@
 import { Route } from "react-router-dom";
 import React, { Component } from "react";
-import API from "../modules/APIManager"
 
+import EventManager from './modules/EventManager'
+import ArticleManager from './modules/ArticleManager'
+import FriendManager from './modules/FriendManager'
+import UserManager from './modules/UserManager'
+import ChatManager from './modules/ChatManager'
+import TaskManager from './modules/TaskManager'
+import ArticlesList from '../components/articles/ArticlesList'
 
 export default class ApplicationViews extends Component {
-
   state = {
     events: [],
     articles: [],
+    users: [],
     messages: [],
     tasks: [],
-    users: [],
     friends: []
-};
-
-componentDidMount() {
-
-    const paths = Object.keys(this.state)
-  
-    const fetchPages = (pages) => {
-    API.getAllEntries(pages)
-    .then(page => {
-      this.setState({
-        [pages]: page}
-      )}
-      )}
-  
-    paths.forEach(path => fetchPages(path)) 
   }
 
-delete = (items, id) => {
-    return API.removeAndList(items, id)
-.then(data => this.setState({
-        [items]: data
-    })
-  )
-}
-  
+  componentDidMount() {
+    const newState = {}
+
+    EventManager.all()
+    .then(events => this.setState(newState.events = events))
+    .then(() => ArticleManager.all())
+    .then(articles => newState.articles = articles)
+    .then(() => UserManager.all())
+    .then(users => newState.users = users)
+    .then(() => ChatManager.all())
+    .then(messages => newState.messages = messages)
+    .then(() => TaskManager.all())
+    .then(tasks => newState.tasks = tasks)
+    .then(() => FriendManager.all())
+    .then(friends => newState.friends = friends)
+    .then(() => this.setState(newState)) 
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -48,10 +48,8 @@ delete = (items, id) => {
           }}
         />
 
-        <Route
-          exact path="/" render={props => {
+        <Route exact path="/news" render={(props) => {
             return null
-            // Remove null and return the component which will show news articles
           }}
         />
 
