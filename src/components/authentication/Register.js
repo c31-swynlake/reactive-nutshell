@@ -24,6 +24,7 @@ export default class Register extends Component {
         } else if (this.state.password === "") {
             window.alert("Please enter a password")
         }
+        this.props.history.push("/login")
     }
 
     render() {

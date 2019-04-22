@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap"
+import { Button, Form, FormGroup, Label, Input } from "reactstrap"
 
 export default class Login extends Component {
 
@@ -41,6 +41,7 @@ export default class Login extends Component {
                 })
             )
         }
+        console.log(sessionStorage.getItem("credentials"))
         this.props.history.push("/")
     }
 
