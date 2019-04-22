@@ -1,16 +1,41 @@
 import { Route } from "react-router-dom";
 import React, { Component } from "react";
+import API from "../modules/APIManager"
+
 
 export default class ApplicationViews extends Component {
 
+  state = {
+    events: [],
+    articles: [],
+    messages: [],
+    tasks: [],
+    users: [],
+    friends: []
+};
 
+componentDidMount() {
 
+    const paths = Object.keys(this.state)
+  
+    const fetchPages = (pages) => {
+    API.getAllEntries(pages)
+    .then(page => {
+      this.setState({
+        [pages]: page}
+      )}
+      )}
+  
+    paths.forEach(path => fetchPages(path)) 
+  }
 
-
-
-
-
-
+delete = (items, id) => {
+    return API.removeAndList(items, id)
+.then(data => this.setState({
+        [items]: data
+    })
+  )
+}
   
   render() {
     return (
