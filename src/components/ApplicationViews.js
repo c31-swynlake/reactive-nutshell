@@ -1,6 +1,7 @@
 import { Route } from "react-router-dom";
 import React, { Component } from "react";
-import Login from "./authentication/Login"
+import Login from "./authentication/Login";
+import Register from "./authentication/Register"
 
 export default class ApplicationViews extends Component {
 
@@ -11,10 +12,11 @@ export default class ApplicationViews extends Component {
         <Route
           exact path="/login" render={props => {
             return <Login />
-            // Remove null and return the component which will handle authentication
           }}
         />
-
+        <Route path="/register" render={props => {
+          return <Register />
+        }} />
         <Route
           exact path="/" render={props => {
             return null
