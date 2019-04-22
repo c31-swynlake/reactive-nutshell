@@ -3,6 +3,7 @@
 
 import React, { Component } from "react"
 import { Button, Label, Form, FormGroup, Input } from "reactstrap"
+import UserManager from "./../../modules/UserManager"
 
 export default class Register extends Component {
     state = {
@@ -26,8 +27,24 @@ export default class Register extends Component {
             window.alert("Please enter an email address")
         } else if (this.state.password === "") {
             window.alert("Please enter a password")
+        } else if (this.props.users.some(user => {
+            return user.userName.toLowerCase() === this.state.userName.toLowerCase()
+        })) {
+            window.alert("User name is already taken")
+        } else if (this.props.users.some(user => {
+            return user.email.toLowerCase() === this.state.email.toLowerCase()
+        })) {
+            window.alert("Email address already exists")
+        } else {
+            UserManager.post({
+                userName: this.state.userName,
+                email: this.state.email,
+                password: this.state.password
+            })
+            this.props.history.push("/login")
         }
-        this.props.history.push("/login")
+
+
     }
 
     render() {
