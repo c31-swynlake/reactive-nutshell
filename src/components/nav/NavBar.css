@@ -1,0 +1,19 @@
+.navbar {
+
+  background-color: #464EA3
+}
+
+.navbar-nav {
+  padding-left: 20px;
+  justify-content: space-evenly;
+}
+
+ul .nav-item a {
+  text-transform: uppercase;
+  margin: 0 10px;
+  color: white
+}
+
+nav a {
+  color: white
+}
