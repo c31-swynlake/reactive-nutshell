@@ -56,7 +56,7 @@ export default class ApplicationViews extends Component {
           }}
         />
 
-        <Route exact path="/articles" render={(props) => {
+        <Route exact path="/news" render={(props) => {
             return <ArticlesList  articles={this.state.articles} friends={this.state.friends}/>
           }}
         />
