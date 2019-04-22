@@ -6,6 +6,7 @@ import FriendManager from './modules/FriendManager'
 import UserManager from './modules/UserManager'
 import ChatManager from './modules/ChatManager'
 import TaskManager from './modules/TaskManager'
+import ArticlesList from '../components/articles/ArticlesList'
 
 export default class ApplicationViews extends Component {
   state = {
@@ -13,7 +14,8 @@ export default class ApplicationViews extends Component {
     articles: [],
     users: [],
     messages: [],
-    tasks: []
+    tasks: [],
+    friends: []
   }
 
   componentDidMount() {
@@ -29,6 +31,8 @@ export default class ApplicationViews extends Component {
     .then(messages => newState.messages = messages)
     .then(() => TaskManager.all())
     .then(tasks => newState.tasks = tasks)
+    .then(() => FriendManager.all())
+    .then(friends => newState.friends = friends)
     .then(() => this.setState(newState)) 
   }
 
@@ -52,10 +56,8 @@ export default class ApplicationViews extends Component {
           }}
         />
 
-        <Route
-          exact path="/" render={props => {
-            return null
-            // Remove null and return the component which will show news articles
+        <Route exact path="/articles" render={(props) => {
+            return <ArticlesList  articles={this.state.articles} friends={this.state.friends}/>
           }}
         />
 
