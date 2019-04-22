@@ -4,7 +4,8 @@ import { Button, Label, Form, FormGroup, Input } from "reactstrap"
 export default class Register extends Component {
     state = {
         userName: "",
-        email: ""
+        email: "",
+        password: ""
     }
 
     handleFieldChange = event => {
@@ -15,11 +16,13 @@ export default class Register extends Component {
 
     handleRegister = event => {
         event.preventDefault()
-        
-        if(this.state.userName === "") {
+
+        if (this.state.userName === "") {
             window.alert("Please enter a user name")
-        } else if(this.state.email === "") {
+        } else if (this.state.email === "") {
             window.alert("Please enter an email address")
+        } else if (this.state.password === "") {
+            window.alert("Please enter a password")
         }
     }
 
@@ -28,30 +31,42 @@ export default class Register extends Component {
             <Form>
                 <FormGroup>
                     <Label htmlFor="userName">
-                    User Name
+                        User Name
                     </Label>
                     <Input
-                    type="text"
-                    required
-                    id="userName"
-                    onChange={this.handleFieldChange}
-                    placeholder="User Name"
+                        type="text"
+                        required
+                        id="userName"
+                        onChange={this.handleFieldChange}
+                        placeholder="User Name"
                     />
                 </FormGroup>
                 <FormGroup>
                     <Label htmlFor="email">
-                    Email Address
+                        Email Address
                     </Label>
                     <Input
-                    type="email"
-                    required
-                    id="email"
-                    onChange={this.handleFieldChange}
-                    placeholder="user@email"
+                        type="email"
+                        required
+                        id="email"
+                        onChange={this.handleFieldChange}
+                        placeholder="user@email"
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label htmlFor="password">
+                        Password
+                    </Label>
+                    <Input
+                        type="password"
+                        required
+                        id="password"
+                        onChange={this.handleFieldChange}
+                        placeholder="Password"
                     />
                 </FormGroup>
                 <Button
-                onClick={this.handleRegister}
+                    onClick={this.handleRegister}
                 >
                     Register
                 </Button>

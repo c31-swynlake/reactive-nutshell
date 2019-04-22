@@ -6,7 +6,7 @@ export default class Login extends Component {
     state = {
         userId: "",
         userName: "",
-        email: "",
+        password: "",
         rememberMe: false
     }
 
@@ -20,15 +20,15 @@ export default class Login extends Component {
         event.preventDefault()
         if (this.state.userName === "") {
             window.alert("Please enter user name")
-        } else if (this.state.email === "") {
-            window.alert("Please enter email address")
+        } else if (this.state.password === "") {
+            window.alert("Please enter password")
         } else if (this.state.rememberMe) {
             localStorage.setItem(
                 "credentials",
                 JSON.stringify({
                     id: parseInt(this.state.userId),
                     userName: this.state.userName,
-                    email: this.state.email
+                    password: this.state.password
                 })
             )
         } else {
@@ -37,7 +37,7 @@ export default class Login extends Component {
                 JSON.stringify({
                     id: parseInt(this.state.userId),
                     userName: this.state.userName,
-                    email: this.state.email
+                    password: this.state.password
                 })
             )
         }
@@ -60,14 +60,14 @@ export default class Login extends Component {
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label htmlFor="email">
-                        Email
+                    <Label htmlFor="password">
+                        Password
                     </Label>
                     <Input
-                        type="email"
+                        type="password"
                         required
-                        id="email"
-                        placeholder="user@email"
+                        id="password"
+                        placeholder="Password"
                         onChange={this.handleFieldChange}
                     />
                 </FormGroup>
