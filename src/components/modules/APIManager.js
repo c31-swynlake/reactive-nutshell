@@ -7,7 +7,7 @@ This module will hold the parent fetch calls that will be inheireted by the foll
 - TaskManager.js
 */
 
-const remoteURL = "http://localhost:5002/"
+const remoteURL = "http://localhost:5002"
 
 export default Object.create(null, {
     resource: {

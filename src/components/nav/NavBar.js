@@ -42,7 +42,7 @@ class NavBar extends Component {
                 <NavLink href="/events">Events</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/articles">Friends</NavLink>
+                <NavLink href="/friends">Friends</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="/news">News</NavLink>
