@@ -7,6 +7,7 @@ import FriendManager from '../modules/FriendManager'
 import UserManager from '../modules/UserManager'
 import ChatManager from '../modules/ChatManager'
 import ArticlesList from '../components/articles/ArticlesList'
+import MessageList from "./messages/MessageList"
 
 export default class ApplicationViews extends Component {
   state = {
@@ -18,8 +19,8 @@ export default class ApplicationViews extends Component {
 
   componentDidMount() {
     const newState = {}
-    
-      UserManager.all()
+
+    UserManager.all()
       .then(users => newState.users = users)
       .then(() => ChatManager.all())
       .then(messages => newState.messages = messages)
@@ -89,8 +90,7 @@ export default class ApplicationViews extends Component {
         < Route
           path="/messages" render={props => {
             if (this.isAuthenticated()) {
-              return null
-              // Remove null and return the component which will show list of friends
+              return <MessageList {...props} messages={this.messages} activeUser={this.activeUser} />
             } else {
               return <Redirect to="/load" />
             }
