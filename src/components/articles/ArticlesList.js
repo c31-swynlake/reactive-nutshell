@@ -4,11 +4,25 @@ import {
     CardTitle, CardSubtitle
 } from 'reactstrap';
 import TheArticle from './TheArticle'
-import FriendsArticle from './FriendArticles';
+import FriendsArticle from './FriendArticles'
+
+
+
 
 export default class ArticlesList extends Component {
     // userId = sessionStorage.getItem("credentials.userId")
     // userId = 1;
+
+    // state = {
+    //     articles: [],
+    //     friends: []
+    // }
+    
+    // componentDidMount() {
+    //     const theNewState = {}
+
+        
+    // }
     friends = userId => {
         let friends = this.props.friends.filter(theFriend => theFriend.currentUserId === userId)
 

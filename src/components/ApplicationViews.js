@@ -12,10 +12,10 @@ export default class ApplicationViews extends Component {
   state = {
     events: [],
     articles: [],
-    users: [],
+    users: [1],
     messages: [],
     tasks: [],
-    friends: []
+    friends: [2,4,5]
   }
 
   componentDidMount() {
