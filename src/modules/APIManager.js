@@ -1,48 +1,37 @@
+/*
+This module will hold the parent fetch calls that will be inheireted by the following:
+- ArticleManager.js
+- ChatManager.js
+- EventManager.js
+- FriendManager.js
+- TaskManager.js
+*/
+
 const remoteURL = "http://localhost:5002"
 
-export default {
-
-  getEntry(endpoint, id) {
-    return fetch(`${remoteURL}/${endpoint}/${id}`).then(res => res.json());
-  },
-
-  getAllEntries(endpoint) {
-    return fetch(`${remoteURL}/${endpoint}`).then(res => res.json());
-  },
-
-  postEntry(endpoint, entry) {
-    return fetch(`${remoteURL}/${endpoint}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(entry)
-    });
-  },
-
-  deleteEntry(endpoint, entryID) {
-    return fetch(`${remoteURL}/${endpoint}/${entryID}`, {
-      method: "DELETE"
-    }).then(res => res.json());
-  },
-
-  patchEntry(endpoint, entryID, entry){
-    return fetch(`${remoteURL}/${endpoint}/${entryID}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(entry)
-    })
-  },
-
-  editEntry(endpoint, entryID, entry){
-    return fetch(`${remoteURL}/${endpoint}/${entryID}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(entry)
-    })
-  }
-};
+export default Object.create(null, {
+    resource: {
+        value: ""
+    },
+    all: {
+        value: function () {
+            return fetch(`${remoteURL}/${this.resource}`).then(r => r.json())
+        }
+    },
+    get: {
+        value: function (id) {
+            return fetch(`${remoteURL}/${this.resource}/${id}`).then(r => r.json())
+        }
+    },
+    post: {
+        value: function (object) {
+            return fetch(`${remoteURL}/${this.resource}`, {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(object)
+            }).then(r => r.json())
+        }
+    }
+})
