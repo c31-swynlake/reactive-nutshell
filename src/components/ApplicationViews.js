@@ -10,33 +10,24 @@ import UserManager from '../modules/UserManager'
 import ChatManager from '../modules/ChatManager'
 import TaskManager from '../modules/TaskManager'
 import ArticlesList from '../components/articles/ArticlesList'
+import API from "../modules/APICalls"
 
 export default class ApplicationViews extends Component {
   state = {
-    events: [],
-    articles: [],
     users: [],
-    messages: [],
-    tasks: [],
-    friends: []
+    activeUser:[],
+    userFriends:[]
   }
 
   componentDidMount() {
     const newState = {}
-
-    EventManager.all()
-      .then(events => this.setState(newState.events = events))
-      .then(() => ArticleManager.all())
-      .then(articles => newState.articles = articles)
-      .then(() => UserManager.all())
-      .then(users => newState.users = users)
-      .then(() => ChatManager.all())
-      .then(messages => newState.messages = messages)
-      .then(() => TaskManager.all())
-      .then(tasks => newState.tasks = tasks)
-      .then(() => FriendManager.all())
-      .then(friends => newState.friends = friends)
-      .then(() => this.setState(newState))
+    let activeUser = sessionStorage.getItem("userId")
+    newState.activeUser = activeUser
+    API.getAll("users?_embed=friends")
+      .then(users => newState.users = users).then(()=> {
+        this.setState(newState)
+      }).then()
+    
   }
 
   isAuthenticated = () => {
