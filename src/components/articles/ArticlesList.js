@@ -10,7 +10,6 @@ export default class ArticlesList extends Component {
     state = {
         userArticles: [],
         friendsArticles: [],
-        activeUser: sessionStorage.getItem("userId"),
         friends:[1,2]
     }
     
@@ -18,10 +17,11 @@ export default class ArticlesList extends Component {
 
         ArticleManager.all()
         .then( allArticlesArray => {
-            const userArticles = allArticlesArray.filter(articleElement => articleElement.userId === parseInt(this.state.activeUser))
+            console.log(this.props.activeUser)
+            const userArticles = allArticlesArray.filter(articleElement => articleElement.userId === parseInt(this.props.activeUser))
 
             const friendsArticles = allArticlesArray.filter(articleElement => this.state.friends.find(friend => parseInt(friend) === articleElement.userId))
-            console.log("The current user is: ",this.state.activeUser, "and their articles include: ",userArticles, "and the friends articles are: ", friendsArticles)
+            console.log("The current user is: ",this.props.activeUser, "and their articles include: ",userArticles, "and the friends articles are: ", friendsArticles)
 
             this.setState({
                 userArticles: userArticles,
@@ -32,7 +32,6 @@ export default class ArticlesList extends Component {
  
 
     render() {
-
         return (
             <div>
                 <Card>

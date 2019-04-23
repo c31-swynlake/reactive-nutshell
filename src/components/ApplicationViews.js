@@ -17,14 +17,15 @@ export default class ApplicationViews extends Component {
   }
 
   componentDidMount() {
-    const newState = {}
-    
+      const newState = {}
+      // newState.activeUser = sessionStorage.getItem("userId")
       UserManager.all()
       .then(users => newState.users = users)
       .then(() => ChatManager.all())
       .then(messages => newState.messages = messages)
       .then(() => FriendManager.all())
       .then(friends => newState.friends = friends)
+      .then(() => newState.activeUser = sessionStorage.getItem("userId"))
       .then(() => this.setState(newState))
   }
 
@@ -77,7 +78,7 @@ export default class ApplicationViews extends Component {
           }} />
 
         <Route exact path="/news" render={(props) => {
-            return <ArticlesList {...props} />
+            return <ArticlesList {...props} activeUser={this.state.activeUser}/>
           }}
         />
 
