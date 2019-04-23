@@ -3,40 +3,29 @@ import React, { Component } from "react";
 import Login from "./authentication/Login";
 import Register from "./authentication/Register"
 import Load from "./authentication/Load"
-import EventManager from '../modules/EventManager'
-import ArticleManager from '../modules/ArticleManager'
 import FriendManager from '../modules/FriendManager'
 import UserManager from '../modules/UserManager'
 import ChatManager from '../modules/ChatManager'
-import TaskManager from '../modules/TaskManager'
 import ArticlesList from '../components/articles/ArticlesList'
 
 export default class ApplicationViews extends Component {
   state = {
-    events: [],
-    articles: [],
-    users: [1],
+    users: [],
     messages: [],
-    tasks: [],
-    friends: [2,4,5]
+    friends: [],
+    activeUser: ""
   }
 
   componentDidMount() {
     const newState = {}
-
-    EventManager.all()
-    .then(events => newState.events = events)
-    .then(() => ArticleManager.all())
-    .then(articles => newState.articles = articles)
-    .then(() => UserManager.all())
-    .then(users => newState.users = users)
-    .then(() => ChatManager.all())
-    .then(messages => newState.messages = messages)
-    .then(() => TaskManager.all())
-    .then(tasks => newState.tasks = tasks)
-    .then(() => FriendManager.all())
-    .then(friends => newState.friends = friends)
-    .then(() => this.setState(newState)) 
+    
+      UserManager.all()
+      .then(users => newState.users = users)
+      .then(() => ChatManager.all())
+      .then(messages => newState.messages = messages)
+      .then(() => FriendManager.all())
+      .then(friends => newState.friends = friends)
+      .then(() => this.setState(newState))
   }
 
   isAuthenticated = () => {
@@ -62,6 +51,12 @@ export default class ApplicationViews extends Component {
       })
   }
 
+  updateStorage = (key) => {
+    this.setState({
+      "activeUser": key
+    })
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -70,7 +65,7 @@ export default class ApplicationViews extends Component {
         }} />
         <Route
           exact path="/login" render={props => {
-            return <Login {...props} users={this.state.users} />
+            return <Login {...props} users={this.state.users} updateStorage={this.updateStorage} />
           }}
         />
         <Route path="/register" render={props => {
