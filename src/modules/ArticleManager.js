@@ -5,8 +5,5 @@ import APIManager from "./APIManager";
 export default Object.create(APIManager, {
     resource: {
         value: "articles"
-    },
-    getUser: (id) => {
-        return fetch(`http://localhost:5002/users/${id}/${this.resource}/`)
     }
 })

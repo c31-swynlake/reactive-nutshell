@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Card, CardImg, CardText, CardBody, CardLink,
-    CardTitle, CardSubtitle
-} from 'reactstrap';
+import { CardText, CardTitle } from 'reactstrap';
 
 export default class TheArticle extends Component {
 
@@ -10,8 +7,11 @@ export default class TheArticle extends Component {
         return(
             <React.Fragment key={this.props.TheArticle.id}>
                 <CardTitle>
-                    {TheArticle.title}
+                    {this.props.TheArticle.title}
                 </CardTitle>
+                <CardText>
+                    {this.props.TheArticle.synopsis}
+                </CardText>
             </React.Fragment>
         )
     }

@@ -1,59 +1,56 @@
 import React, { Component } from 'react'
-import {
-    Card, CardImg, CardText, CardBody, CardLink,
-    CardTitle, CardSubtitle
-} from 'reactstrap';
+import { Card, CardBody } from 'reactstrap';
 import TheArticle from './TheArticle'
-import FriendsArticle from './FriendArticles'
 import ArticleManager from '../../modules/ArticleManager'
-
-
+import './articles.css'
 
 
 export default class ArticlesList extends Component {
    
     state = {
         userArticles: [],
-        friendsArticles: []
+        friendsArticles: [],
+        activeUser: sessionStorage.getItem("userId"),
+        friends:[1,2]
     }
     
-    // componentDidMount() {
-    //     const theNewState = {}
+    componentDidMount() {
 
-        
-    // }
-    // friends = userId => {
-    //     let friends = this.props.friends.filter(theFriend => theFriend.currentUserId === userId)
+        ArticleManager.all()
+        .then( allArticlesArray => {
+            const userArticles = allArticlesArray.filter(articleElement => articleElement.userId === parseInt(this.state.activeUser))
 
-    //     friends.forEach(friend => {
-    //         this.props.articles.filter(theArticle => theArticle.userId === friend.id)
-    //         .map(friendArticle =>
-    //             <div key={friendArticle.id}>
-    //                 {friendArticle.title}
-    //             </div>    
-    //         )
-    //     });
-    // }
+            const friendsArticles = allArticlesArray.filter(articleElement => this.state.friends.find(friend => parseInt(friend) === articleElement.userId))
+            console.log("The current user is: ",this.state.activeUser, "and their articles include: ",userArticles, "and the friends articles are: ", friendsArticles)
+
+            this.setState({
+                userArticles: userArticles,
+                friendsArticles: friendsArticles
+            })
+        })
+    }
+ 
 
     render() {
-        // const userId = 1;
 
-        const userId = sessionStorage.getItem("userId")
-        console.log(userId)
         return (
             <div>
                 <Card>
                     <CardBody>
-                        {
-                            this.props.articles
-                            .filter(theArticle => theArticle.userId === userId)
-                            .map(theArticle => 
-                                <TheArticle TheArticle={theArticle}/>
-                            )
-                        }
+                        <div className="users__articles">
+                            {
+                                this.state.userArticles.map(article =>
+                                <TheArticle key={article.id} TheArticle={article} />    
+                                )
+                            }
+                        </div>
                     </CardBody>
-                    <CardBody>
-                        {/* <FriendsArticle theFriends={friends} friends={this.props.friends} articles={this.props.articles}/> */}
+                    <CardBody className="friends__articles">
+                            {
+                                this.state.friendsArticles.map(article => 
+                                <TheArticle key={article.id} TheArticle={article} />    
+                                )
+                            }
                     </CardBody>
                 </Card>
             </div>
