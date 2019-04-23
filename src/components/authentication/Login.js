@@ -32,9 +32,11 @@ export default class Login extends Component {
             if (this.state.rememberMe) {
                 localStorage.setItem("userId", user.id)
                 localStorage.setItem("userName", this.state.userName)
+                this.props.updateStorage(user.id)
             } else {
                 sessionStorage.setItem("userId", user.id)
                 sessionStorage.setItem("userName", this.state.userName)
+                this.props.updateStorage(user.id)
             }
             this.props.history.push("/")
         } else {
