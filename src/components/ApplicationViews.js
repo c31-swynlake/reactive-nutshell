@@ -40,9 +40,14 @@ export default class ApplicationViews extends Component {
   }
 
   isAuthenticated = () => {
-    if (sessionStorage.getItem("credentials") !== null || localStorage.getItem("credentials") !== null) {
+    if (sessionStorage.getItem("useId") !== null) {
       return true
-    } else {
+    } else if (localStorage.getItem("userId") !== null) {
+      sessionStorage.setItem("userId", localStorage.getItem("userId"))
+      sessionStorage.setItem("userName", localStorage.getItem("userName"))
+      return true
+    }
+    else {
       return false
     }
   }
@@ -55,7 +60,7 @@ export default class ApplicationViews extends Component {
         }} />
         <Route
           exact path="/login" render={props => {
-            return <Login {...props} users={this.state.users}/>
+            return <Login {...props} users={this.state.users} />
           }}
         />
         <Route path="/register" render={props => {
