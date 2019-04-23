@@ -30,23 +30,11 @@ export default class Login extends Component {
             window.alert("Please enter password")
         } else if (user !== undefined) {
             if (this.state.rememberMe) {
-                localStorage.setItem(
-                    "credentials",
-                    JSON.stringify({
-                        userId: user.id,
-                        userName: this.state.userName,
-                        password: this.state.password
-                    })
-                )
+                localStorage.setItem("userId", user.id)
+                localStorage.setItem("userName", this.state.userName)
             } else {
-                sessionStorage.setItem(
-                    "credentials",
-                    JSON.stringify({
-                        userId: user.id,
-                        userName: this.state.userName,
-                        password: this.state.password
-                    })
-                )
+                sessionStorage.setItem("userId", user.id)
+                sessionStorage.setItem("userName", this.state.userName)
             }
             this.props.history.push("/")
         } else {
@@ -92,6 +80,7 @@ export default class Login extends Component {
                     />
                 </FormGroup>
                 <Button
+                    type="submit"
                     onClick={this.handleLogin}
                 >
                     Sign In</Button>

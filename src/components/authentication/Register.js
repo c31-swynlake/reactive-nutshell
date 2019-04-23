@@ -20,7 +20,6 @@ export default class Register extends Component {
 
     handleRegister = event => {
         event.preventDefault()
-
         if (this.state.userName === "") {
             window.alert("Please enter a user name")
         } else if (this.state.email === "") {
@@ -66,7 +65,7 @@ export default class Register extends Component {
                     </Label>
                     <Input
                         type="email"
-                        required
+                        required=""
                         id="email"
                         onChange={this.handleFieldChange}
                         placeholder="user@email"
@@ -85,6 +84,7 @@ export default class Register extends Component {
                     />
                 </FormGroup>
                 <Button
+                    type="submit"
                     onClick={this.handleRegister}
                 >
                     Register
