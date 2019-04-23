@@ -22,7 +22,7 @@ export default class ApplicationViews extends Component {
     const newState = {}
 
     EventManager.all()
-    .then(events => this.setState(newState.events = events))
+    .then(events => newState.events = events)
     .then(() => ArticleManager.all())
     .then(articles => newState.articles = articles)
     .then(() => UserManager.all())
@@ -35,12 +35,6 @@ export default class ApplicationViews extends Component {
     .then(friends => newState.friends = friends)
     .then(() => this.setState(newState)) 
   }
-
-
-
-
-
-
 
 
 
@@ -57,7 +51,7 @@ export default class ApplicationViews extends Component {
         />
 
         <Route exact path="/news" render={(props) => {
-            return null
+            return <ArticlesList {...props} articles={this.state.articles} friends={this.state.friends}/>
           }}
         />
 
