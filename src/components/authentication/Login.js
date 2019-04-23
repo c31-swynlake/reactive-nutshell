@@ -7,7 +7,6 @@ import { Button, Form, FormGroup, Label, Input } from "reactstrap"
 export default class Login extends Component {
 
     state = {
-        userId: "",
         userName: "",
         password: "",
         rememberMe: false
@@ -21,31 +20,38 @@ export default class Login extends Component {
 
     handleLogin = event => {
         event.preventDefault()
+        const user = this.props.users.find(user => {
+            return user.userName === this.state.userName && user.password === this.state.password
+        })
+
         if (this.state.userName === "") {
             window.alert("Please enter user name")
         } else if (this.state.password === "") {
             window.alert("Please enter password")
-        } else if (this.state.rememberMe) {
-            localStorage.setItem(
-                "credentials",
-                JSON.stringify({
-                    id: parseInt(this.state.userId),
-                    userName: this.state.userName,
-                    password: this.state.password
-                })
-            )
+        } else if (user !== undefined) {
+            if (this.state.rememberMe) {
+                localStorage.setItem(
+                    "credentials",
+                    JSON.stringify({
+                        userId: user.id,
+                        userName: this.state.userName,
+                        password: this.state.password
+                    })
+                )
+            } else {
+                sessionStorage.setItem(
+                    "credentials",
+                    JSON.stringify({
+                        userId: user.id,
+                        userName: this.state.userName,
+                        password: this.state.password
+                    })
+                )
+            }
+            this.props.history.push("/")
         } else {
-            sessionStorage.setItem(
-                "credentials",
-                JSON.stringify({
-                    id: parseInt(this.state.userId),
-                    userName: this.state.userName,
-                    password: this.state.password
-                })
-            )
+            window.alert("User name and password do not match")
         }
-        console.log(sessionStorage.getItem("credentials"))
-        this.props.history.push("/")
     }
 
     render() {

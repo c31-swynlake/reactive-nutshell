@@ -1,3 +1,6 @@
+// Authors: Billy Mathison
+// Page welcomes uesr and renders links to both login and register page
+
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 
