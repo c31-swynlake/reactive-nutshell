@@ -55,4 +55,4 @@ export default class ArticlesList extends Component {
             </div>
         )
     }
-}
+}n
