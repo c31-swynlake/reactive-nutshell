@@ -14,13 +14,24 @@ export default Object.create(null, {
         value: ""
     },
     all: {
-        value: function() {
+        value: function () {
             return fetch(`${remoteURL}/${this.resource}`).then(r => r.json())
         }
     },
     get: {
-        value: function(id) {
+        value: function (id) {
             return fetch(`${remoteURL}/${this.resource}/${id}`).then(r => r.json())
+        }
+    },
+    post: {
+        value: function (object) {
+            return fetch(`${remoteURL}/${this.resource}`, {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(object)
+            }).then(r => r.json())
         }
     }
 })

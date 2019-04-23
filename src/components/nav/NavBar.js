@@ -17,7 +17,8 @@ class NavBar extends Component {
    }
    
      handleSubmit = (event) => {
-       sessionStorage.clear();   
+       sessionStorage.clear();  
+       localStorage.clear(); 
      }
     
     toggle = () => {
@@ -51,7 +52,7 @@ class NavBar extends Component {
                 <NavLink href="/messages">Messages</NavLink>
               </NavItem>
               <NavItem>
-                   <NavLink onClick={this.handleSubmit} href="/login">Log Out</NavLink>
+                   <NavLink onClick={this.handleSubmit} href="/load">Log Out</NavLink>
               </NavItem>
                </Nav>
                </Collapse>
