@@ -20,7 +20,7 @@ export default class Login extends Component {
 
     handleLogin = event => {
         event.preventDefault()
-        const user = this.props.users.find(user => {
+        let user = this.props.users.find(user => {
             return user.userName === this.state.userName && user.password === this.state.password
         })
 

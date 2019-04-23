@@ -35,7 +35,7 @@ export default class Register extends Component {
         })) {
             window.alert("Email address already exists")
         } else {
-            UserManager.post({
+            this.props.postRegisteredUser({
                 userName: this.state.userName,
                 email: this.state.email,
                 password: this.state.password

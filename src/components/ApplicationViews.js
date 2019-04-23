@@ -52,6 +52,16 @@ export default class ApplicationViews extends Component {
     }
   }
 
+  postRegisteredUser = (object) => {
+    UserManager.post(object)
+      .then(() => UserManager.all())
+      .then(users => {
+        this.setState({
+          "users": users
+        })
+      })
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -64,7 +74,7 @@ export default class ApplicationViews extends Component {
           }}
         />
         <Route path="/register" render={props => {
-          return <Register {...props} users={this.state.users} />
+          return <Register {...props} users={this.state.users} postRegisteredUser={this.postRegisteredUser} />
         }} />
         <Route
           exact path="/" render={props => {
