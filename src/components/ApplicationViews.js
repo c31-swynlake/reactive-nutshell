@@ -3,10 +3,10 @@ import React, { Component } from "react";
 import Login from "./authentication/Login";
 import Register from "./authentication/Register"
 import Load from "./authentication/Load"
-import FriendManager from '../modules/FriendManager'
+// import FriendManager from '../modules/FriendManager'
 import UserManager from '../modules/UserManager'
 import ChatManager from '../modules/ChatManager'
-import ArticlesList from '../components/articles/ArticlesList'
+// import ArticlesList from '../components/articles/ArticlesList'
 import API from "../modules/APICalls"
 import MessageList from "./messages/MessageList"
 
@@ -21,16 +21,26 @@ export default class ApplicationViews extends Component {
 
   componentDidMount() {
     const newState = {}
+    if (this.state.activeUser === "") {
+      let key = sessionStorage.getItem("userId")
+      API.getAll(`connections?userId=${key}`)
+      .then(friendsList => {
+        let friendsId = friendsList.map(friend => friend.friendId)
+        this.setState({friends: friendsId, activeUser: key})
+        UserManager.all()
 
-
-    UserManager.all()
-
+        .then(users => newState.users = users)
+        .then(() => ChatManager.all())
+        .then(messages => newState.messages = messages)
+        .then(() => this.setState(newState))
+    })} else {
+      UserManager.all()
       .then(users => newState.users = users)
       .then(() => ChatManager.all())
       .then(messages => newState.messages = messages)
       .then(() => this.setState(newState))
   }
-
+    }
   isAuthenticated = () => {
     if (sessionStorage.getItem("userId") !== null) {
       return true
@@ -55,10 +65,9 @@ export default class ApplicationViews extends Component {
   }
 //this function sets state for active user by putting his user ID and his friends into state. 
   updateStorage = (key) => {
-    API.getAll(`users/${key}/?_embed=friends`)
-      .then(friendList => {
-        let friendArray = friendList.friends
-        let friendsId = friendArray.map(friend => friend.currentUserId)
+    API.getAll(`connections?userId=${key}`)
+      .then(friendsList => {
+        let friendsId = friendsList.map(friend => friend.friendId)
         this.setState({friends: friendsId, activeUser: key})
       })
     

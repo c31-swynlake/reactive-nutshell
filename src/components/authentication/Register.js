@@ -3,7 +3,8 @@
 
 import React, { Component } from "react"
 import { Button, Label, Form, FormGroup, Input } from "reactstrap"
-import UserManager from "./../../modules/UserManager"
+// import UserManager from "./../../modules/UserManager"
+import API from "../../modules/APICaller"
 
 export default class Register extends Component {
     state = {
@@ -39,7 +40,8 @@ export default class Register extends Component {
                 userName: this.state.userName,
                 email: this.state.email,
                 password: this.state.password
-            })
+            }); 
+            API.postOne("friends", {userName: this.state.userName })
             this.props.history.push("/login")
         }
     }
