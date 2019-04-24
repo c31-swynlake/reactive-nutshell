@@ -100,7 +100,7 @@ class ApplicationViews extends Component {
             return <ArticleForm  {...props} addArticle={this.addArticle} activeUser={this.state.activeUser}/>
           }}
         />
-        
+        <Route path="/news/:articleId(d+)/edit" />
         <Route
           path="/friends" render={props => {
             return null

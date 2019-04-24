@@ -5,6 +5,8 @@ This module will hold the parent fetch calls that will be inheireted by the foll
 - EventManager.js
 - FriendManager.js
 - TaskManager.js
+
+AUTHOR: JAMEKA ECHOLS
 */
 
 const remoteURL = "http://localhost:5002"
@@ -31,6 +33,24 @@ export default Object.create(null, {
                     "Content-type": "application/json"
                 },
                 body: JSON.stringify(object)
+            }).then(r => r.json())
+        }
+    },
+    put: {
+        value: function (object,id) {
+            return fetch(`${remoteURL}/${this.resource}/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(object)
+            }).then(r => r.json())
+        }
+    },
+    delete: {
+        value: function(id) {
+            return fetch(`${remoteURL}/${this.resource}/${id}`, {
+                method: "DELETE"
             }).then(r => r.json())
         }
     }
