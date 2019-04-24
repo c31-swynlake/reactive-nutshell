@@ -7,6 +7,7 @@ import FriendManager from '../modules/FriendManager'
 import UserManager from '../modules/UserManager'
 import ChatManager from '../modules/ChatManager'
 import ArticlesList from '../components/articles/ArticlesList'
+import API from "../modules/APICaller"
 
 export default class ApplicationViews extends Component {
   state = {
@@ -18,12 +19,13 @@ export default class ApplicationViews extends Component {
 
   componentDidMount() {
     const newState = {}
-    
+    let activeuser = sessionStorage.getItem("userId");
+      newState.activeUser = activeuser;
       UserManager.all()
       .then(users => newState.users = users)
       .then(() => ChatManager.all())
       .then(messages => newState.messages = messages)
-      .then(() => FriendManager.all())
+      .then(() => API.getAll(`users/${activeuser}/?_embed=friends`))
       .then(friends => newState.friends = friends)
       .then(() => this.setState(newState))
   }
@@ -73,7 +75,12 @@ export default class ApplicationViews extends Component {
         }} />
         <Route
           exact path="/" render={props => {
-            return null
+            if (this.isAuthenticated()) {
+              return <Redirect to="/home" />
+              // Remove null and return the component which will show list of friends
+            } else {
+              return <Redirect to="/load" />
+            }
           }} />
 
         <Route exact path="/news" render={(props) => {
@@ -86,7 +93,7 @@ export default class ApplicationViews extends Component {
             // Remove null and return the component which will show list of friends
           }} />
 
-        < Route
+        <Route
           path="/messages" render={props => {
             if (this.isAuthenticated()) {
               return null
