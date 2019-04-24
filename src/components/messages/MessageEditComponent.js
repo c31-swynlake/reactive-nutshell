@@ -18,12 +18,15 @@ export default class MessageIndividual extends Component {
     }
 
     render() {
-        if (this.props.beingEdited === true) {
+        if (this.props.message.userId === this.props.activeUser) {
             return <React.Fragment>
                 <div key={this.props.message.id}>
                     <Input
-                        id={this.props.message.id}
-                        value={this.props.message.message}
+                        type="text"
+                        id="message"
+                        value={this.state.message}
+                        placeholder={this.props.message.message}
+                        onChange={this.handleFieldChange}
                     />
                     <Button
                         id={this.props.message.id}
@@ -33,21 +36,7 @@ export default class MessageIndividual extends Component {
                 </Button>
                 </div>
             </React.Fragment>
-        }
-        else if (this.props.message.userId === this.props.activeUser) {
-            return (
-                <React.Fragment>
-                    <div key={this.props.message.id}>
-                        {this.props.message.message} {this.props.users.find(user => user.id === this.props.message.userId).userName}
-                        <Button
-                            id={this.props.message.id}
-                            onClick={this.props.handleEditMessage}
-                        >
-                            Edit
-                        </Button>
-                    </div>
-                </React.Fragment>
-            )
+
         } else {
             return (
                 <React.Fragment>

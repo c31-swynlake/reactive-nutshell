@@ -9,6 +9,7 @@ import ChatManager from '../modules/ChatManager'
 // import ArticlesList from '../components/articles/ArticlesList'
 import API from "../modules/APICalls"
 import MessageList from "./messages/MessageList"
+import MessageEdit from "./messages/MessageEdit"
 
 
 export default class ApplicationViews extends Component {
@@ -19,29 +20,29 @@ export default class ApplicationViews extends Component {
     activeUser: ""
   }
 
-
   componentDidMount() {
     const newState = {}
     if (this.state.activeUser === "") {
       let key = sessionStorage.getItem("userId")
       API.getAll(`connections?userId=${key}`)
-      .then(friendsList => {
-        let friendsId = friendsList.map(friend => friend.friendId)
-        this.setState({friends: friendsId, activeUser: parseInt(key)})
-        UserManager.all()
+        .then(friendsList => {
+          let friendsId = friendsList.map(friend => friend.friendId)
+          this.setState({ friends: friendsId, activeUser: parseInt(key) })
+          UserManager.all()
 
+            .then(users => newState.users = users)
+            .then(() => ChatManager.all())
+            .then(messages => newState.messages = messages)
+            .then(() => this.setState(newState))
+        })
+    } else {
+      UserManager.all()
         .then(users => newState.users = users)
         .then(() => ChatManager.all())
         .then(messages => newState.messages = messages)
         .then(() => this.setState(newState))
-    })} else {
-      UserManager.all()
-      .then(users => newState.users = users)
-      .then(() => ChatManager.all())
-      .then(messages => newState.messages = messages)
-      .then(() => this.setState(newState))
-  }
     }
+  }
   isAuthenticated = () => {
     if (sessionStorage.getItem("userId") !== null) {
       return true
@@ -77,21 +78,21 @@ export default class ApplicationViews extends Component {
 
   putNewMessage = (message, id) => {
     ChatManager.put(message, id)
-    .then(() => ChatManager.all())
-    .then(messages => {
-      this.setState({
-        messages: messages
+      .then(() => ChatManager.all())
+      .then(messages => {
+        this.setState({
+          messages: messages
+        })
       })
-    })
   }
 
   updateStorage = (key) => {
     API.getAll(`connections?userId=${key}`)
       .then(friendsList => {
         let friendsId = friendsList.map(friend => friend.friendId)
-        this.setState({friends: friendsId, activeUser: key})
+        this.setState({ friends: friendsId, activeUser: key })
       })
-    
+
   }
 
   render() {
@@ -129,9 +130,18 @@ export default class ApplicationViews extends Component {
           }} />
 
         <Route
-          path="/messages" render={props => {
+          path="/messages/edit" render={props => {
             if (this.isAuthenticated()) {
-              return <MessageList {...props} messages={this.state.messages} activeUser={this.state.activeUser} users={this.state.users} postNewMessage={this.postNewMessage} putNewMessage={this.putNewMessage} />
+              return <MessageEdit {...props} messages={this.state.messages} activeUser={this.state.activeUser} users={this.state.users} putNewMessage={this.putNewMessage} />
+            } else {
+              return <Redirect to="/load" />
+            }
+          }} />
+
+        <Route
+          exact path="/messages" render={props => {
+            if (this.isAuthenticated()) {
+              return <MessageList {...props} messages={this.state.messages} activeUser={this.state.activeUser} users={this.state.users} postNewMessage={this.postNewMessage} />
             } else {
               return <Redirect to="/load" />
             }

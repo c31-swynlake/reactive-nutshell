@@ -3,10 +3,9 @@
 
 import React, { Component } from "react"
 import {
-    Card, CardBody, Form,
-    Button, CardHeader, CardFooter, Input
+    Card, CardBody, Form, CardHeader, CardFooter, Input
 } from "reactstrap"
-import MessageIndividual from "./MessageIndividual"
+import MessageEditComponent from "./MessageEditComponent"
 
 export default class MessageList extends Component {
     state = {
@@ -20,28 +19,6 @@ export default class MessageList extends Component {
         this.setState(stateToChange)
     }
 
-    handleSaveMessage = event => {
-        event.preventDefault()
-
-
-        if (this.state.message === "") {
-            window.alert("Please enter a message")
-        } else {
-            this.props.postNewMessage({
-                userId: this.props.activeUser,
-                message: this.state.message
-            })
-        }
-        this.setState({ message: "" })
-    }
-
-    handleEditMessage = event => {
-        event.preventDefault()
-        this.props.history.push("/messages/edit")
-
-
-    }
-
     handleSaveEditMessage = event => {
         event.preventDefault()
 
@@ -52,7 +29,7 @@ export default class MessageList extends Component {
                 userId: this.props.activeUser,
                 message: this.state.message
             }, event.target.id)
-        }
+        } this.props.history.push("/messages")
     }
 
     render() {
@@ -68,7 +45,7 @@ export default class MessageList extends Component {
                     <CardBody>
                         {
                             messageArray.map(message =>
-                                <MessageIndividual key={message.id} message={message} {...this.props} users={this.props.users} handleEditMessage={this.handleEditMessage} beingEdited={this.state.beingEdited} />
+                                <MessageEditComponent key={message.id} message={message} {...this.props} users={this.props.users} />
                             )
                         }
                     </CardBody>
@@ -81,12 +58,6 @@ export default class MessageList extends Component {
                                 placeholder="Enter chat message"
                                 onChange={this.handleFieldChange}
                             />
-                            <Button
-                                color="info"
-                                onClick={this.handleSaveMessage}
-                            >
-                                Save Message
-                            </Button>
                         </Form>
                     </CardFooter>
                 </Card>
