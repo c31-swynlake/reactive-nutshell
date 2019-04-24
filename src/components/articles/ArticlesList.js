@@ -1,13 +1,15 @@
 /*
 This component will list all the articles and the user friend's articles. It is has 2 child components
 - TheArticle.js which will render the article's
-- Friendsl
+- FriendsArticles.js which will render the friend's articles
+
 */
 
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { Card, CardBody , Button} from 'reactstrap';
 import TheArticle from './TheArticle'
+import ArticleForm from './ArticlesForm'
 import ArticleManager from '../../modules/ArticleManager'
 import FriendsArticle from './FriendsArticle'
 import './articles.css'
@@ -40,6 +42,32 @@ class ArticlesList extends Component {
         })
     }
 
+    //this function will make a fetch call the articles manager to add and this function will be pass
+    // as a prop to Articles Form
+    addArticle = (articleObj) =>  {
+        ArticleManager.post(articleObj)
+        .then(() => ArticleManager.all())
+        .then(articles => {
+            const userArticles = articles.filter(articleElement => articleElement.userId === parseInt(this.props.activeUser))
+          this.setState({userArticles: userArticles})
+          this.props.history.push("/news")
+        })
+    }
+
+    // this function will make a fetch call the article manager to make a put request and this function will 
+    // be passed as a prop to Article Edit
+    updateArticle = (updatedArticleObj, id) => {
+        ArticleManager.put(updatedArticleObj, id)
+        .then(() => ArticleManager.all())
+        .then(articles => {
+            const userArticles = articles.filter(articleElement => articleElement.userId === parseInt(this.props.activeUser))
+          this.setState({userArticles: userArticles})
+          this.props.history.push("/news")
+        })
+    }
+
+    // this function will make a fetch call for the article manager to make a delete request and this function 
+    // will be passed as a prop to article delete
     deleteArticle = (id) => {
         ArticleManager.delete(id)
         .then(() => ArticleManager.all())
@@ -53,19 +81,18 @@ class ArticlesList extends Component {
     render() {
         return (
             <div>
+                <ArticleForm {...this.props} addArticle={this.addArticle} activeUser={this.props.activeUser}/>  
                 <Card>
                     <CardBody>
-                        <Button color="success"
-                            onClick={() => {
-                                {
-                                    this.props.history.push('/news/new')
-                                }
-                            }}
-                            >Add Article</Button>
+                        
                         <div className="users__articles">
                             {
                                 this.state.userArticles.map(article => // add {...this.props.deleteArticle}
-                                <TheArticle key={article.id} {...this.props} deleteArticle={this.deleteArticle} TheArticle={article} />    
+                                <TheArticle key={article.id} {...this.props} 
+                                updateArticle={this.updateArticle} 
+                                deleteArticle={this.deleteArticle} 
+                                TheArticle={article} 
+                                activeUser={this.props.activeUser}/>    
                                 )
                             }
                         </div>

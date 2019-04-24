@@ -10,9 +10,9 @@ import ChatManager from '../modules/ChatManager'
 import ArticlesList from '../components/articles/ArticlesList'
 import API from "../modules/APICalls"
 import MessageList from "./messages/MessageList"
-import ArticleForm from './articles/ArticlesForm'
-import ArticleManager from "../modules/ArticleManager";
-import ArticleEdit from './articles/ArticlesEdit'
+// import ArticleForm from './articles/ArticlesForm'
+// import ArticleManager from "../modules/ArticleManager";
+// import ArticleEdit from './articles/ArticlesEdit'
 
 
 class ApplicationViews extends Component {
@@ -91,25 +91,25 @@ class ApplicationViews extends Component {
 
   //this function will make a fetch call the articles manager to add and this function will be pass
   // as a prop to Articles Form
-  addArticle = (articleObj) =>  {
-    ArticleManager.post(articleObj)
-    .then(() => ArticleManager.all())
-    .then(articles => {
-      this.props.history.push("/news")
-      this.setState({articles: articles})
-    })
-  }
+  // addArticle = (articleObj) =>  {
+  //   ArticleManager.post(articleObj)
+  //   .then(() => ArticleManager.all())
+  //   .then(articles => {
+  //     this.props.history.push("/news")
+  //     this.setState({articles: articles})
+  //   })
+  // }
 
   // this function will make a fetch call the article manager to make a put request and this function will 
   // be passed as a prop to Article Edit
-  updateArticle = (updatedArticleObj, id) => {
-    ArticleManager.put(updatedArticleObj, id)
-    .then(() => ArticleManager.all())
-    .then(articles => {
-      this.setState({articles: articles})
-      this.props.history.push("/news")
-    })
-  }
+  // updateArticle = (updatedArticleObj, id) => {
+  //   ArticleManager.put(updatedArticleObj, id)
+  //   .then(() => ArticleManager.all())
+  //   .then(articles => {
+  //     this.setState({articles: articles})
+  //     this.props.history.push("/news")
+  //   })
+  // }
 
   // this function will make a fetch call for the article manager to make a delete request and this function 
   // will be passed as a prop to article delete
@@ -151,13 +151,13 @@ class ApplicationViews extends Component {
             return <ArticlesList {...props} activeUser={this.state.activeUser} deleteArticle={this.deleteArticle}/>
           }}
         />
-        <Route path="/news/new" render={(props) => {
+        {/* <Route path="/news/new" render={(props) => {
             return <ArticleForm  {...props} addArticle={this.addArticle} activeUser={this.state.activeUser}/>
           }}
-        />
-        <Route path="/news/:articleId(\d+)/edit" render={(props) => { //add articles={this.state.articles}
+        /> */}
+        {/* <Route path="/news/:articleId(\d+)/edit" render={(props) => { //add articles={this.state.articles}
             return <ArticleEdit {...props} activeUser={this.state.activeUser} updateArticle={this.updateArticle} />
-        }}/>
+        }}/> */}
         <Route
           path="/friends" render={props => {
             return null

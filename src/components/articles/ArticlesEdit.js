@@ -21,7 +21,7 @@ export default class ArticlesEdit extends Component {
 
 
     componentDidMount() {
-        ArticlesManager.get(this.props.match.params.articleId)
+        ArticlesManager.get(this.props.articleId)
         .then(animal => {
             this.setState({
                 userId: parseInt(this.props.activeUser),
@@ -38,14 +38,14 @@ export default class ArticlesEdit extends Component {
         event.preventDefault()
 
         const editedArticle = {
-            id: parseInt(this.props.match.params.articleId),
+            id: parseInt(this.props.articleId),
             userId: this.props.activeUser,
             url: this.state.url,
             title: this.state.title,
             synopsis: this.state.synopsis
         }
 
-        this.props.updateArticle(editedArticle, this.props.match.params.articleId)
+        this.props.updateArticle(editedArticle, this.props.articleId)
     }
 
     render(){

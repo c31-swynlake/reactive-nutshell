@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
-export default class ArticlesForm extends Component {
+class ArticlesForm extends Component {
     state = {
         userId: this.props.activeUser,
         url: "", 
@@ -33,6 +34,8 @@ export default class ArticlesForm extends Component {
             }
             // add the new article 
             this.props.addArticle(newArticle)
+            let form = event.target.parentNode
+            form.reset();
             // .then(() => this.props.history.push("/news"))
         }
     }
@@ -77,3 +80,4 @@ export default class ArticlesForm extends Component {
         )
     }
 }
+export default withRouter(ArticlesForm)

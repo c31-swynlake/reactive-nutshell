@@ -1,19 +1,30 @@
 import React, { Component } from 'react'
+import { Route, Redirect } from "react-router-dom"
 import { CardText, CardTitle, Button } from 'reactstrap';
+import ArticleEdit from './ArticlesEdit'
+import { withRouter } from 'react-router'
 
-export default class TheArticle extends Component {
+class TheArticle extends Component {
+
+
+    handleButton = (event) => {
+        let target = event.target.parentNode
+
+    }
 
     render() {
         return(
             <React.Fragment key={this.props.TheArticle.id}>
                 <CardTitle>
                     {this.props.TheArticle.title}
-                </CardTitle>
+                </CardTitle> 
                 <CardText>
                     {this.props.TheArticle.synopsis}
                 </CardText>
                 <Button color="primary"
-                onClick={() => {this.props.history.push(`/news/${this.props.TheArticle.id}/edit`)}}
+                onClick={
+                    <ArticleEdit artticleId={this.props.TheArticle.id} />
+                }
                 >
                 Edit</Button>
                 <Button color="danger"
@@ -26,3 +37,5 @@ export default class TheArticle extends Component {
         )
     }
 }
+
+export default withRouter(TheArticle)
