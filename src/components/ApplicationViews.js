@@ -8,8 +8,6 @@ import UserManager from '../modules/UserManager'
 import ChatManager from '../modules/ChatManager'
 import ArticlesList from '../components/articles/ArticlesList'
 import API from "../modules/APICalls"
-
-import API from "../modules/APICaller"
 import MessageList from "./messages/MessageList"
 
 
@@ -30,8 +28,6 @@ export default class ApplicationViews extends Component {
       .then(users => newState.users = users)
       .then(() => ChatManager.all())
       .then(messages => newState.messages = messages)
-      .then(() => API.getAll(`users/${activeuser}/?_embed=friends`))
-      .then(friends => newState.friends = friends)
       .then(() => this.setState(newState))
   }
 
@@ -57,11 +53,15 @@ export default class ApplicationViews extends Component {
         })
       })
   }
-
+//this function sets state for active user by putting his user ID and his friends into state. 
   updateStorage = (key) => {
-    this.setState({
-      "activeUser": key
-    })
+    API.getAll(`users/${key}/?_embed=friends`)
+      .then(friendList => {
+        let friendArray = friendList.friends
+        let friendsId = friendArray.map(friend => friend.currentUserId)
+        this.setState({friends: friendsId, activeUser: key})
+      })
+    
   }
 
   render() {
