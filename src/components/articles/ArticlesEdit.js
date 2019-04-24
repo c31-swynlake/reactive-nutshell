@@ -6,7 +6,7 @@ import ArticlesManager from '../../modules/ArticleManager'
 export default class ArticlesEdit extends Component {
     // set the intial state
     state = {
-        userId: this.props.activeUser,
+        userId: parseInt(this.props.activeUser),
         url: "",
         title: "",
         synopsis: ""
