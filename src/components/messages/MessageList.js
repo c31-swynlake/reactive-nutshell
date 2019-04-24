@@ -43,7 +43,7 @@ export default class MessageList extends Component {
             this.props.putNewMessage({
                 userId: this.props.activeUser,
                 message: this.state.message
-            })
+            }, event.target.id)
         }
 
     }
@@ -64,20 +64,6 @@ export default class MessageList extends Component {
                                 <MessageIndividual key={message.id} message={message} {...this.props} users={this.props.users} />
                             )
                         }
-                    </CardBody>
-                    <CardBody>
-                        <Label>Edit most recent message</Label>
-                        <Input
-                            id="recentMessage"
-                            type="text"
-                            value={this.state.recentMessage}
-                            onChange={this.handleFieldChange}
-                        />
-                        <Button
-                            onClick
-                        >
-                            Edit
-                        </Button>
                     </CardBody>
                     <CardFooter>
                         <Form>
