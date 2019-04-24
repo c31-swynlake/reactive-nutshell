@@ -90,7 +90,7 @@ export default class ApplicationViews extends Component {
         < Route
           path="/messages" render={props => {
             if (this.isAuthenticated()) {
-              return <MessageList {...props} messages={this.messages} activeUser={this.activeUser} />
+              return <MessageList {...props} messages={this.state.messages} activeUser={this.state.activeUser} users={this.state.users} />
             } else {
               return <Redirect to="/load" />
             }
