@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import "./NavBar.css"
+import { Link } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
 import {
     Collapse,
@@ -37,19 +38,22 @@ class NavBar extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
           <Nav navbar>
           <NavItem>
-                <NavLink href="/">Home</NavLink>
+                <NavLink tag={Link} to="/home">Home</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/events">Events</NavLink>
+                <NavLink tag={Link} to="/events">Events</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/friends">Friends</NavLink>
+                <NavLink tag={Link} to="/friends">Friends</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/news">News</NavLink>
+                <NavLink tag={Link} to="/news">News</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/messages">Messages</NavLink>
+                <NavLink tag={Link} to="/messages">Messages</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={Link} to="/tasks">Tasks</NavLink>
               </NavItem>
               <NavItem>
                    <NavLink onClick={this.handleSubmit} href="/load">Log Out</NavLink>
