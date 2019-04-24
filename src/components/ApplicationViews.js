@@ -18,9 +18,7 @@ export default class ApplicationViews extends Component {
     friends: [],
     activeUser: ""
   }
-getSnapshotBeforeUpdate = (prevProps, prevState) => {
-  
-}
+
 
   componentDidMount() {
     const newState = {}
@@ -29,7 +27,7 @@ getSnapshotBeforeUpdate = (prevProps, prevState) => {
       API.getAll(`connections?userId=${key}`)
       .then(friendsList => {
         let friendsId = friendsList.map(friend => friend.friendId)
-        this.setState({friends: friendsId, activeUser: key})
+        this.setState({friends: friendsId, activeUser: parseInt(key)})
         UserManager.all()
 
         .then(users => newState.users = users)
