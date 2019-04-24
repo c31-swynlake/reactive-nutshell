@@ -11,6 +11,7 @@ import ArticlesList from '../components/articles/ArticlesList'
 import MessageList from "./messages/MessageList"
 import ArticleForm from './articles/ArticlesForm'
 import ArticleManager from "../modules/ArticleManager";
+import ArticleEdit from './articles/ArticlesEdit'
 
 class ApplicationViews extends Component {
   state = {
@@ -65,6 +66,8 @@ class ApplicationViews extends Component {
     })
   }
 
+  //this function will make a fetch call the articles manager to add and this function will be pass
+  // as a prop to Articles Form
   addArticle = (articleObj) =>  {
     ArticleManager.post(articleObj)
     .then(() => ArticleManager.all())
@@ -73,6 +76,18 @@ class ApplicationViews extends Component {
       this.setState({articles: articles})
     })
   }
+
+  // this function will make a fetch call the article manager to make a put request and this function will 
+  // be passed as a prop to Article Edit
+  updateArticle = (updatedArticleObj) => {
+    ArticleManager.put(updatedArticleObj)
+    .then(() => ArticleManager.all())
+    .then(articles => {
+      this.props.history.push("/news")
+      this.setState({articles: articles})
+    })
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -100,7 +115,9 @@ class ApplicationViews extends Component {
             return <ArticleForm  {...props} addArticle={this.addArticle} activeUser={this.state.activeUser}/>
           }}
         />
-        <Route path="/news/:articleId(d+)/edit" />
+        <Route path="/news/:articleId(\d+)/edit" render={(props) => {
+            return <ArticleEdit {...props} articles={this.state.articles} activeUser={this.state.activeUser} updateArticle={this.updateArticle} />
+        }}/>
         <Route
           path="/friends" render={props => {
             return null
