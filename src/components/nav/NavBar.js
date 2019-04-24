@@ -53,6 +53,9 @@ class NavBar extends Component {
                 <NavLink tag={Link} to="/messages">Messages</NavLink>
               </NavItem>
               <NavItem>
+                <NavLink tag={Link} to="/tasks">Tasks</NavLink>
+              </NavItem>
+              <NavItem>
                 <NavLink onClick={this.handleSubmit} tag={Link} to="/load">Log Out</NavLink>
               </NavItem>
             </Nav>

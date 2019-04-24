@@ -4,16 +4,19 @@ import React, { Component } from "react";
 import Login from "./authentication/Login";
 import Register from "./authentication/Register"
 import Load from "./authentication/Load"
-import FriendManager from '../modules/FriendManager'
+// import FriendManager from '../modules/FriendManager'
 import UserManager from '../modules/UserManager'
 import ChatManager from '../modules/ChatManager'
-import ArticlesList from '../components/articles/ArticlesList'
+// import ArticlesList from '../components/articles/ArticlesList'
+import API from "../modules/APICalls"
 import MessageList from "./messages/MessageList"
 import ArticleForm from './articles/ArticlesForm'
 import ArticleManager from "../modules/ArticleManager";
 import ArticleEdit from './articles/ArticlesEdit'
 
+
 class ApplicationViews extends Component {
+  
   state = {
     users: [],
     messages: [],
@@ -22,21 +25,29 @@ class ApplicationViews extends Component {
     activeUser: ""
   }
 
+
   componentDidMount() {
     const newState = {}
+    if (this.state.activeUser === "") {
+      let key = sessionStorage.getItem("userId")
+      API.getAll(`connections?userId=${key}`)
+      .then(friendsList => {
+        let friendsId = friendsList.map(friend => friend.friendId)
+        this.setState({friends: friendsId, activeUser: parseInt(key)})
+        UserManager.all()
 
-    UserManager.all()
+        .then(users => newState.users = users)
+        .then(() => ChatManager.all())
+        .then(messages => newState.messages = messages)
+        .then(() => this.setState(newState))
+    })} else {
+      UserManager.all()
       .then(users => newState.users = users)
-      .then(() => ChatManager.all())
-      .then(messages => newState.messages = messages)
-      .then(() => FriendManager.all())
-      .then(friends => newState.friends = friends)
-      .then(() => newState.activeUser = sessionStorage.getItem("userId"))
       .then(() => ArticleManager.all())
       .then(articles => newState.articles = articles)
       .then(() => this.setState(newState))
   }
-
+    }
   isAuthenticated = () => {
     if (sessionStorage.getItem("userId") !== null) {
       return true
@@ -71,9 +82,12 @@ class ApplicationViews extends Component {
   }
 
   updateStorage = (key) => {
-    this.setState({
-      "activeUser": key
-    })
+    API.getAll(`connections?userId=${key}`)
+      .then(friendsList => {
+        let friendsId = friendsList.map(friend => friend.friendId)
+        this.setState({friends: friendsId, activeUser: key})
+      })
+    
   }
 
   //this function will make a fetch call the articles manager to add and this function will be pass
@@ -126,7 +140,12 @@ class ApplicationViews extends Component {
         }} />
         <Route
           exact path="/" render={props => {
-            return null
+            if (this.isAuthenticated()) {
+              return <Redirect to="/home" />
+              // Remove null and return the component which will show list of friends
+            } else {
+              return <Redirect to="/load" />
+            }
           }} />
 
         <Route exact path="/news" render={(props) => {
@@ -146,7 +165,7 @@ class ApplicationViews extends Component {
             // Remove null and return the component which will show list of friends
           }} />
 
-        < Route
+        <Route
           path="/messages" render={props => {
             if (this.isAuthenticated()) {
               return <MessageList {...props} messages={this.state.messages} activeUser={this.state.activeUser} users={this.state.users} postNewMessage={this.postNewMessage} />

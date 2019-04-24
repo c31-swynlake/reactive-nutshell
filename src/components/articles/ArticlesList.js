@@ -1,5 +1,7 @@
 /*
-This component will list all the articles and the user friend's articles
+This component will list all the articles and the user friend's articles. It is has 2 child components
+- TheArticle.js which will render the article's
+- Friendsl
 */
 
 import React, { Component } from 'react'
