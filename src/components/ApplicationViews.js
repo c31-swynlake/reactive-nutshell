@@ -3,31 +3,36 @@ import React, { Component } from "react";
 import Login from "./authentication/Login";
 import Register from "./authentication/Register"
 import Load from "./authentication/Load"
-import EventManager from '../modules/EventManager'
-import ArticleManager from '../modules/ArticleManager'
 import FriendManager from '../modules/FriendManager'
 import UserManager from '../modules/UserManager'
 import ChatManager from '../modules/ChatManager'
-import TaskManager from '../modules/TaskManager'
 import ArticlesList from '../components/articles/ArticlesList'
 import API from "../modules/APICalls"
+
+import API from "../modules/APICaller"
+import MessageList from "./messages/MessageList"
+
 
 export default class ApplicationViews extends Component {
   state = {
     users: [],
-    activeUser:[],
-    userFriends:[]
+    messages: [],
+    friends: [],
+    activeUser: ""
   }
 
   componentDidMount() {
     const newState = {}
-    let activeUser = sessionStorage.getItem("userId")
-    newState.activeUser = activeUser
-    API.getAll("users?_embed=friends")
-      .then(users => newState.users = users).then(()=> {
-        this.setState(newState)
-      }).then()
-    
+
+
+    UserManager.all()
+
+      .then(users => newState.users = users)
+      .then(() => ChatManager.all())
+      .then(messages => newState.messages = messages)
+      .then(() => API.getAll(`users/${activeuser}/?_embed=friends`))
+      .then(friends => newState.friends = friends)
+      .then(() => this.setState(newState))
   }
 
   isAuthenticated = () => {
@@ -53,6 +58,12 @@ export default class ApplicationViews extends Component {
       })
   }
 
+  updateStorage = (key) => {
+    this.setState({
+      "activeUser": key
+    })
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -61,7 +72,7 @@ export default class ApplicationViews extends Component {
         }} />
         <Route
           exact path="/login" render={props => {
-            return <Login {...props} users={this.state.users} />
+            return <Login {...props} users={this.state.users} updateStorage={this.updateStorage} />
           }}
         />
         <Route path="/register" render={props => {
@@ -69,7 +80,12 @@ export default class ApplicationViews extends Component {
         }} />
         <Route
           exact path="/" render={props => {
-            return null
+            if (this.isAuthenticated()) {
+              return <Redirect to="/home" />
+              // Remove null and return the component which will show list of friends
+            } else {
+              return <Redirect to="/load" />
+            }
           }} />
 
         <Route exact path="/news" render={(props) => {
@@ -82,11 +98,10 @@ export default class ApplicationViews extends Component {
             // Remove null and return the component which will show list of friends
           }} />
 
-        < Route
+        <Route
           path="/messages" render={props => {
             if (this.isAuthenticated()) {
-              return null
-              // Remove null and return the component which will show list of friends
+              return <MessageList {...props} messages={this.messages} activeUser={this.activeUser} />
             } else {
               return <Redirect to="/load" />
             }
