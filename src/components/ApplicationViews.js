@@ -8,6 +8,7 @@ import UserManager from '../modules/UserManager'
 import ChatManager from '../modules/ChatManager'
 import ArticlesList from '../components/articles/ArticlesList'
 import MessageList from "./messages/MessageList"
+import ArticleForm from './articles/ArticlesForm'
 
 export default class ApplicationViews extends Component {
   state = {
@@ -82,7 +83,11 @@ export default class ApplicationViews extends Component {
             return <ArticlesList {...props} activeUser={this.state.activeUser}/>
           }}
         />
-
+        <Route exact path="/news/new" render={(props) => {
+            return <ArticleForm  {...props} activeUser={this.state.activeUser}/>
+          }}
+        />
+        
         <Route
           path="/friends" render={props => {
             return null

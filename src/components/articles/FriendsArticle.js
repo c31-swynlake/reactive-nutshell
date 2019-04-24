@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { CardText, CardTitle, Button } from 'reactstrap';
+import { CardText, CardTitle } from 'reactstrap';
 
-export default class TheArticle extends Component {
 
+export default class FriendsArticle extends Component {
     render() {
         return(
             <React.Fragment key={this.props.TheArticle.id}>
@@ -12,8 +12,6 @@ export default class TheArticle extends Component {
                 <CardText>
                     {this.props.TheArticle.synopsis}
                 </CardText>
-                <Button color="primary">Edit</Button>
-                <Button color="danger">Delete</Button>
             </React.Fragment>
         )
     }
