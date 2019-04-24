@@ -12,7 +12,10 @@ export default class TheArticle extends Component {
                 <CardText>
                     {this.props.TheArticle.synopsis}
                 </CardText>
-                <Button color="primary">Edit</Button>
+                <Button color="primary"
+                onClick={() => {this.props.history.push(`/news/${this.props.TheArticle.id}/edit`)}}
+                >
+                Edit</Button>
                 <Button color="danger">Delete</Button>
             </React.Fragment>
         )

@@ -79,12 +79,12 @@ class ApplicationViews extends Component {
 
   // this function will make a fetch call the article manager to make a put request and this function will 
   // be passed as a prop to Article Edit
-  updateArticle = (updatedArticleObj) => {
-    ArticleManager.put(updatedArticleObj)
+  updateArticle = (updatedArticleObj, id) => {
+    ArticleManager.put(updatedArticleObj, id)
     .then(() => ArticleManager.all())
     .then(articles => {
-      this.props.history.push("/news")
       this.setState({articles: articles})
+      this.props.history.push("/news")
     })
   }
 

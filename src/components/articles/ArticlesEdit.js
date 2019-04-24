@@ -38,7 +38,7 @@ export default class ArticlesEdit extends Component {
         event.preventDefault()
 
         const editedArticle = {
-            id: this.props.match.params.articleId,
+            id: parseInt(this.props.match.params.articleId),
             userId: this.props.activeUser,
             url: this.state.url,
             title: this.state.title,
@@ -48,5 +48,46 @@ export default class ArticlesEdit extends Component {
         this.props.updateArticle(editedArticle, this.props.match.params.articleId)
     }
 
+    render(){
+        return (
+            <Form>
+                <FormGroup>
+                    <Label for="title">Title</Label>
+                    <Input 
+                    type="text" 
+                    required
+                    id="title"
+                    value={this.state.title}
+                    onChange={this.handleFieldChange}
+                    placeholder="Enter a title"
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="synopsis">Synopsis</Label>
+                    <Input 
+                    type="text" 
+                    required
+                    value={this.state.synopsis}
+                    id="synopsis"
+                    onChange={this.handleFieldChange}
+                    placeholder="Enter the synopsis"
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="url">URL</Label>
+                    <Input 
+                    type="text" 
+                    required
+                    id="url"
+                    value={this.state.url}
+                    onChange={this.handleFieldChange}
+                    placeholder="Enter the url"
+                    />
+                </FormGroup>
+                <Button color="primary"
+                    onClick={this.updateArticle}>Add</Button>
+            </Form>
+        )
+    }
 
 }

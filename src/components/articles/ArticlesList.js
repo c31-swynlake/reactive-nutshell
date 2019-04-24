@@ -47,7 +47,7 @@ export default class ArticlesList extends Component {
                         <div className="users__articles">
                             {
                                 this.state.userArticles.map(article =>
-                                <TheArticle key={article.id} TheArticle={article} />    
+                                <TheArticle key={article.id} {...this.props} TheArticle={article} />    
                                 )
                             }
                         </div>
