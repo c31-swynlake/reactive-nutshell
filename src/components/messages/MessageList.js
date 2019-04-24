@@ -3,14 +3,15 @@
 
 import React, { Component } from "react"
 import {
-    Card, CardBody, Form,
+    Card, CardBody, Form, Label,
     Button, CardHeader, CardFooter, Input
 } from "reactstrap"
 import MessageIndividual from "./MessageIndividual"
 
 export default class MessageList extends Component {
     state = {
-        message: ""
+        message: "",
+        recentMessage: ""
     }
 
     handleFieldChange = event => {
@@ -33,11 +34,25 @@ export default class MessageList extends Component {
         this.setState({ message: "" })
     }
 
+    handleEditMessage = event => {
+        event.preventDefault()
+
+        if (this.state.recentMessage === "") {
+            window.alert("Please enter a message in edit form")
+        } else {
+            this.props.putNewMessage({
+                userId: this.props.activeUser,
+                message: this.state.message
+            })
+        }
+
+    }
+
     render() {
         let n = this.props.messages.length
-        let messageArray = this.props.messages.slice(0, n - 1)
+        let messageArray = this.props.messages.slice(0, n)
         if (n >= 10) {
-            messageArray = this.props.messages.slice(n - 10, n - 1)
+            messageArray = this.props.messages.slice(n - 10, n)
         }
         return (
             <React.Fragment>
@@ -49,9 +64,20 @@ export default class MessageList extends Component {
                                 <MessageIndividual key={message.id} message={message} {...this.props} users={this.props.users} />
                             )
                         }
-                        {
-                            messageArray[n - 1]
-                        }
+                    </CardBody>
+                    <CardBody>
+                        <Label>Edit most recent message</Label>
+                        <Input
+                            id="recentMessage"
+                            type="text"
+                            value={this.state.recentMessage}
+                            onChange={this.handleFieldChange}
+                        />
+                        <Button
+                            onClick
+                        >
+                            Edit
+                        </Button>
                     </CardBody>
                     <CardFooter>
                         <Form>

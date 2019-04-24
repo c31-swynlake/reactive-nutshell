@@ -62,6 +62,16 @@ export default class ApplicationViews extends Component {
       })
   }
 
+  putNewMessage = (message, id) => {
+    ChatManager.put(message, id)
+    .then(() => ChatManager.all())
+    .then(messages => {
+      this.setState({
+        messages: messages
+      })
+    })
+  }
+
   updateStorage = (key) => {
     this.setState({
       "activeUser": key
@@ -100,7 +110,7 @@ export default class ApplicationViews extends Component {
         < Route
           path="/messages" render={props => {
             if (this.isAuthenticated()) {
-              return <MessageList {...props} messages={this.state.messages} activeUser={this.state.activeUser} users={this.state.users} postNewMessage={this.postNewMessage} />
+              return <MessageList {...props} messages={this.state.messages} activeUser={this.state.activeUser} users={this.state.users} postNewMessage={this.postNewMessage} putNewMessage={this.putNewMessage} />
             } else {
               return <Redirect to="/load" />
             }
