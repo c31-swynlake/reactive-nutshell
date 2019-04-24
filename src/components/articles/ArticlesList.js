@@ -1,3 +1,7 @@
+/*
+This component will list all the articles and the user friend's articles
+*/
+
 import React, { Component } from 'react'
 import { Card, CardBody , Button} from 'reactstrap';
 import TheArticle from './TheArticle'
@@ -47,7 +51,7 @@ export default class ArticlesList extends Component {
                         <div className="users__articles">
                             {
                                 this.state.userArticles.map(article =>
-                                <TheArticle key={article.id} {...this.props} TheArticle={article} />    
+                                <TheArticle key={article.id} {...this.props} {...this.props.deleteArticle} TheArticle={article} />    
                                 )
                             }
                         </div>

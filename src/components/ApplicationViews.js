@@ -98,6 +98,18 @@ class ApplicationViews extends Component {
     })
   }
 
+  // this function will make a fetch call for the article manager to make a delete request and this function 
+  // will be passed as a prop to article delete
+  deleteArticle = (id) => {
+    ArticleManager.delete(id)
+    .then(() => ArticleManager.all())
+    .then(articles => {
+      console.log(articles)
+      this.setState({articles: articles})
+      this.props.history.push("/news")
+    })
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -118,7 +130,7 @@ class ApplicationViews extends Component {
           }} />
 
         <Route exact path="/news" render={(props) => {
-            return <ArticlesList {...props} activeUser={this.state.activeUser}/>
+            return <ArticlesList {...props} activeUser={this.state.activeUser} deleteArticle={this.deleteArticle}/>
           }}
         />
         <Route path="/news/new" render={(props) => {

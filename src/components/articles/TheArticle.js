@@ -16,7 +16,12 @@ export default class TheArticle extends Component {
                 onClick={() => {this.props.history.push(`/news/${this.props.TheArticle.id}/edit`)}}
                 >
                 Edit</Button>
-                <Button color="danger">Delete</Button>
+                <Button color="danger"
+                onClick={() => {
+                    this.props.deleteArticle(this.props.TheArticle.id)
+                }}
+                >
+                Delete</Button>
             </React.Fragment>
         )
     }
