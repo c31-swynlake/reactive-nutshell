@@ -30,34 +30,44 @@ export default class MessageList extends Component {
                 message: this.state.message
             })
         }
+        this.setState({ message: "" })
     }
 
     render() {
         let n = this.props.messages.length
-
+        let messageArray = this.props.messages.slice(0, n - 1)
+        if (n >= 10) {
+            messageArray = this.props.messages.slice(n - 10, n - 1)
+        }
         return (
             <React.Fragment>
                 <Card>
                     <CardHeader>Chat Room</CardHeader>
                     <CardBody>
                         {
-                            this.props.messages.slice(n - 10, n).map(message =>
+                            messageArray.map(message =>
                                 <MessageIndividual key={message.id} message={message} {...this.props} users={this.props.users} />
                             )
+                        }
+                        {
+                            messageArray[n - 1]
                         }
                     </CardBody>
                     <CardFooter>
                         <Form>
                             <Input
+                                type="text"
                                 id="message"
+                                value={this.state.message}
                                 placeholder="Enter chat message"
-                                onChange={this.handleFieldChange} />
+                                onChange={this.handleFieldChange}
+                            />
                             <Button
                                 color="info"
                                 onClick={this.handleSaveMessage}
                             >
                                 Save Message
-                        </Button>
+                            </Button>
                         </Form>
                     </CardFooter>
                 </Card>
