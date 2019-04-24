@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import ArticleManager from '../../modules/ArticleManager'
-import { stat } from 'fs';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 export default class ArticlesForm extends Component {
     state = {
@@ -28,14 +26,14 @@ export default class ArticlesForm extends Component {
             alert("Please enter a synopsis")
         }else{
             const newArticle = {
-                userId: this.props.activeUser,
+                userId: parseInt(this.props.activeUser),
                 url: this.state.url,
                 title: this.state.title,
                 synopsis: this.state.synopsis
             }
-
-            ArticleManager.post(newArticle)
-            
+            // add the new article 
+            this.props.addArticle(newArticle)
+            // .then(() => this.props.history.push("/news"))
         }
     }
     
@@ -44,36 +42,37 @@ export default class ArticlesForm extends Component {
         return (
             <Form>
                 <FormGroup>
-                    <Label for="">Title</Label>
+                    <Label for="title">Title</Label>
                     <Input 
                     type="text" 
-                    name="title"
                     required
                     id="title"
+                    onChange={this.handleFieldChange}
                     placeholder="Enter a title"
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label for="">Synopsis</Label>
+                    <Label for="synopsis">Synopsis</Label>
                     <Input 
                     type="text" 
-                    name="synopsis"
                     required
                     id="synopsis"
+                    onChange={this.handleFieldChange}
                     placeholder="Enter the synopsis"
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label for="">URL</Label>
+                    <Label for="url">URL</Label>
                     <Input 
                     type="text" 
-                    name="url"
                     required
                     id="url"
+                    onChange={this.handleFieldChange}
                     placeholder="Enter the url"
                     />
                 </FormGroup>
-                <Button color="primary">Add</Button>
+                <Button color="primary"
+                    onClick={this.constructNewArticle}>Add</Button>
             </Form>
         )
     }

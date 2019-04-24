@@ -38,7 +38,11 @@ export default class ArticlesList extends Component {
                 <Card>
                     <CardBody>
                         <Button color="success"
-                            onClick={() => {this.props.history.push("/news/new")}}
+                            onClick={() => {
+                                {
+                                    this.props.history.push('/news/new')
+                                }
+                            }}
                             >Add Article</Button>
                         <div className="users__articles">
                             {

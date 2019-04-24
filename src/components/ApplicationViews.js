@@ -1,4 +1,5 @@
 import { Route, Redirect } from "react-router-dom";
+import { withRouter } from 'react-router'
 import React, { Component } from "react";
 import Login from "./authentication/Login";
 import Register from "./authentication/Register"
@@ -9,12 +10,14 @@ import ChatManager from '../modules/ChatManager'
 import ArticlesList from '../components/articles/ArticlesList'
 import MessageList from "./messages/MessageList"
 import ArticleForm from './articles/ArticlesForm'
+import ArticleManager from "../modules/ArticleManager";
 
-export default class ApplicationViews extends Component {
+class ApplicationViews extends Component {
   state = {
     users: [],
     messages: [],
     friends: [],
+    articles: [],
     activeUser: ""
   }
 
@@ -28,6 +31,8 @@ export default class ApplicationViews extends Component {
       .then(() => FriendManager.all())
       .then(friends => newState.friends = friends)
       .then(() => newState.activeUser = sessionStorage.getItem("userId"))
+      .then(() => ArticleManager.all())
+      .then(articles => newState.articles = articles)
       .then(() => this.setState(newState))
   }
 
@@ -60,6 +65,14 @@ export default class ApplicationViews extends Component {
     })
   }
 
+  addArticle = (articleObj) =>  {
+    ArticleManager.post(articleObj)
+    .then(() => ArticleManager.all())
+    .then(articles => {
+      this.props.history.push("/news")
+      this.setState({articles: articles})
+    })
+  }
   render() {
     return (
       <React.Fragment>
@@ -83,8 +96,8 @@ export default class ApplicationViews extends Component {
             return <ArticlesList {...props} activeUser={this.state.activeUser}/>
           }}
         />
-        <Route exact path="/news/new" render={(props) => {
-            return <ArticleForm  {...props} activeUser={this.state.activeUser}/>
+        <Route path="/news/new" render={(props) => {
+            return <ArticleForm  {...props} addArticle={this.addArticle} activeUser={this.state.activeUser}/>
           }}
         />
         
@@ -121,3 +134,4 @@ export default class ApplicationViews extends Component {
     );
   }
 }
+export default withRouter(ApplicationViews)
