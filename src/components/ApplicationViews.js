@@ -7,7 +7,7 @@ import Load from "./authentication/Load"
 // import FriendManager from '../modules/FriendManager'
 import UserManager from '../modules/UserManager'
 import ChatManager from '../modules/ChatManager'
-// import ArticlesList from '../components/articles/ArticlesList'
+import ArticlesList from '../components/articles/ArticlesList'
 import API from "../modules/APICalls"
 import MessageList from "./messages/MessageList"
 import ArticleForm from './articles/ArticlesForm'
@@ -21,7 +21,7 @@ class ApplicationViews extends Component {
     users: [],
     messages: [],
     friends: [],
-    articles: [],
+    // articles: [],
     activeUser: ""
   }
 
@@ -35,16 +35,15 @@ class ApplicationViews extends Component {
         let friendsId = friendsList.map(friend => friend.friendId)
         this.setState({friends: friendsId, activeUser: parseInt(key)})
         UserManager.all()
-
         .then(users => newState.users = users)
         .then(() => ChatManager.all())
         .then(messages => newState.messages = messages)
+        // .then(() => ArticleManager.all())
+        // .then(articles => newState.articles = articles)
         .then(() => this.setState(newState))
     })} else {
       UserManager.all()
       .then(users => newState.users = users)
-      .then(() => ArticleManager.all())
-      .then(articles => newState.articles = articles)
       .then(() => this.setState(newState))
   }
     }
@@ -114,15 +113,15 @@ class ApplicationViews extends Component {
 
   // this function will make a fetch call for the article manager to make a delete request and this function 
   // will be passed as a prop to article delete
-  deleteArticle = (id) => {
-    ArticleManager.delete(id)
-    .then(() => ArticleManager.all())
-    .then(articles => {
-      console.log(articles)
-      this.setState({articles: articles})
-      this.props.history.push("/news")
-    })
-  }
+  // deleteArticle = (id) => {
+  //   ArticleManager.delete(id)
+  //   .then(() => ArticleManager.all())
+  //   .then(articles => {
+  //     console.log(articles)
+  //     this.setState({articles: articles})
+  //     this.props.history.push("/news")
+  //   })
+  // }
 
   render() {
     return (
@@ -156,8 +155,8 @@ class ApplicationViews extends Component {
             return <ArticleForm  {...props} addArticle={this.addArticle} activeUser={this.state.activeUser}/>
           }}
         />
-        <Route path="/news/:articleId(\d+)/edit" render={(props) => {
-            return <ArticleEdit {...props} articles={this.state.articles} activeUser={this.state.activeUser} updateArticle={this.updateArticle} />
+        <Route path="/news/:articleId(\d+)/edit" render={(props) => { //add articles={this.state.articles}
+            return <ArticleEdit {...props} activeUser={this.state.activeUser} updateArticle={this.updateArticle} />
         }}/>
         <Route
           path="/friends" render={props => {
