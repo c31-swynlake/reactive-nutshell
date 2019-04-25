@@ -29,7 +29,7 @@ export default class MessageList extends Component {
             window.alert("Please enter a message")
         } else {
             this.props.postNewMessage({
-                userId: parseInt(this.props.activeUser),
+                userId: this.props.activeUser,
                 message: this.state.message
             })
         }

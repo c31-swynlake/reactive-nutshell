@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import API from "../../modules/APICaller"
 import { Button } from "reactstrap";
 import TaskEdit from "./TaskEdit";
 
@@ -14,6 +14,13 @@ export default class TaskCard extends Component {
     this.setState({ isEditing: !this.state.isEditing });
   };
 
+  handleComplete = () => {
+    API.patchEntry("tasks", this.props.task.id, {isComplete: true}).then(() => {
+    this.props.refreshTask()
+    })
+  }
+
+
   render() {
     if (!this.state.isEditing) {
       return (
@@ -22,7 +29,7 @@ export default class TaskCard extends Component {
             <h5 className="card-title">{this.props.task.taskName}</h5>
             <p>{this.props.task.targetDate}</p>
             <Button onClick={this.toggle}>Edit</Button>
-            <Button>Complete</Button>
+            <Button onClick={this.handleComplete}>Complete</Button>
           </div>
         </div>
       );

@@ -105,7 +105,7 @@ export default class ApplicationViews extends Component {
   componentWillUpdate() {
     if (this.state.activeUser === "") {
       let key = sessionStorage.getItem("userId");
-      this.setState({activeUser: key})
+      this.setState({activeUser: parseInt(key)})
     }
   }
   putNewMessage = (message, id) => {
