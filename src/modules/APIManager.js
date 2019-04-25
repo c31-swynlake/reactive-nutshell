@@ -37,11 +37,7 @@ export default Object.create(null, {
         }
     },
     put: {
-<<<<<<< HEAD
         value: function (object,id) {
-=======
-        value: function (object, id) {
->>>>>>> master
             return fetch(`${remoteURL}/${this.resource}/${id}`, {
                 method: "PUT",
                 headers: {
@@ -50,7 +46,6 @@ export default Object.create(null, {
                 body: JSON.stringify(object)
             }).then(r => r.json())
         }
-<<<<<<< HEAD
     },
     delete: {
         value: function(id) {
@@ -58,7 +53,5 @@ export default Object.create(null, {
                 method: "DELETE"
             }).then(r => r.json())
         }
-=======
->>>>>>> master
     }
 })

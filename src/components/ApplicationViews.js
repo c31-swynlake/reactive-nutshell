@@ -1,5 +1,5 @@
 import { Route, Redirect } from "react-router-dom";
-import { withRouter } from 'react-router'
+// import { withRouter } from 'react-router'
 import React, { Component } from "react";
 import Login from "./authentication/Login";
 import Register from "./authentication/Register"
@@ -171,4 +171,3 @@ export default class ApplicationViews extends Component {
     );
   }
 }
-export default withRouter(ApplicationViews)

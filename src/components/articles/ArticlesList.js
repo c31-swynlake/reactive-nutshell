@@ -7,7 +7,7 @@ This component will list all the articles and the user friend's articles. It is 
 
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import { Card, CardBody , Button} from 'reactstrap';
+import { Card, CardBody } from 'reactstrap';
 import TheArticle from './TheArticle'
 import ArticleForm from './ArticlesForm'
 import ArticleManager from '../../modules/ArticleManager'
@@ -21,6 +21,7 @@ class ArticlesList extends Component {
         userArticles: [],
         articles:[],
         friendsArticles: [],
+        toBeEdited: false,
         friends:[1,2]
     }
     
