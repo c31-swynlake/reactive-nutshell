@@ -98,7 +98,7 @@ export default class ApplicationViews extends Component {
   updateStorage = key => {
     API.getAll(`connections?userId=${key}`).then(friendsList => {
       let friendsId = friendsList.map(friend => friend.friendId);
-      this.setState({ friends: friendsId, activeUser: key });
+      this.setState({ friends: friendsId, activeUser: parseInt(key) });
     });
   };
 

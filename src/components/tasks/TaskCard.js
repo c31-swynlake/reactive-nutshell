@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+
 import { Button } from "reactstrap";
 import TaskEdit from "./TaskEdit";
+
+/* TaskCard renders the task, and uses a toggle function who's current value is held in state, to allow the edit button render an edit form in the card's place. */
 
 export default class TaskCard extends Component {
   state = {

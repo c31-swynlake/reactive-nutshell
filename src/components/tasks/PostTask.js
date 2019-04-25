@@ -10,12 +10,6 @@ export default class TaskEdit extends Component {
         isComplete: false
     }
 
-    componentDidMount () {
-        API.getOneEntry("tasks",this.props.task.id).then(task => {
-            this.setState({taskName: task.taskName, targetDate: task.targetDate})
-        })
-    }
-
 
     // handle the field change when the input box is edited
     handleFieldChange = event => {
@@ -27,15 +21,13 @@ export default class TaskEdit extends Component {
     handleSubmit = event => {
         // prevent the page from going to another page
         event.preventDefault()
-        const editedTask = {
+        const newTask = {
             userId: parseInt(this.props.activeUser),
             taskName: this.state.taskName,
             targetDate: this.state.targetDate,
             isComplete: this.state.isComplete
         }
-        API.editEntry("tasks", this.props.task.id, editedTask).then(()=>{
-            this.props.toggle()
-        })
+        API.postOne("tasks", newTask)
         .then(()=> {
             this.props.refreshTask()
         })
@@ -53,7 +45,6 @@ export default class TaskEdit extends Component {
                     required
                     id="taskName"
                     onChange={this.handleFieldChange}
-                    value={this.state.taskName}
                     />
                 </FormGroup>
                 <FormGroup>
@@ -63,7 +54,7 @@ export default class TaskEdit extends Component {
                     required
                     id="targetDate"
                     onChange={this.handleFieldChange}
-                    value={this.state.targetDate}
+                    placeholder="Enter a task"
                     />
                 </FormGroup>
                 <Button color="primary"

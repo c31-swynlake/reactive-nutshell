@@ -13,6 +13,8 @@ export default class Friends extends Component {
     searchUser: []
   };
 
+// this function sets initial state for the active user's friends, and for all users of the site. 
+
   componentDidMount() {
     API.getAll(
       `connections?userId=${this.props.activeUser}&_expand=friend`
@@ -42,6 +44,9 @@ export default class Friends extends Component {
     }
   };
 
+
+  //This function allows the page to rerender when the active user's friends list has changed. It waits until App Views state has changed to avoid rerendering the page before a friend has been properly sorted. 
+
   componentDidUpdate(prevProps) {
     if (prevProps.friends !== this.props.friends) {
       API.getAll(
@@ -52,6 +57,7 @@ export default class Friends extends Component {
     }
   }
 
+//this function is used by the search form to filter through the userNames for any String matching the input value. If present, it also filters out the active user from the list, then sets the list to state. Finally, it resets the form. 
 
   handleSubmit = event => {
     event.preventDefault();
