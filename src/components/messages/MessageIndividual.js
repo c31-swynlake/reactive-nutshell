@@ -9,7 +9,8 @@ export default class MessageIndividual extends Component {
         return(
             <React.Fragment>
                 <div key={this.props.message.id}>
-                    {this.props.message.message} {this.props.users.find(user => user.id === this.props.message.userId).userName}
+                    {this.props.message.message} 
+                    {this.props.users.find(user => user.id === this.props.message.userId).userName}
                 </div>
             </React.Fragment>
         )

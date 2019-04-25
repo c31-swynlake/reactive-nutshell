@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import "./task.css"
 import TaskCard from "./TaskCard"
 import API from "../../modules/APICaller"
+import { Container, Form, Button } from "reactstrap";
 
 class TaskList extends Component {
 
@@ -13,46 +14,42 @@ class TaskList extends Component {
     componentDidMount() {
         
 
-        API.getAllEntries("tasks")
+        API.getAll("tasks")
             .then(objectList => {
                const userTasks = objectList.filter(object => parseInt(this.props.activeUser) === object.userId) 
-
-            const friendTasks = objectList.filter(object => this.props.friends.find(friend => parseInt(friend) === object.userId))        
             this.setState(
-              { usertasks: userTasks,
-                friendtasks: friendTasks}
-        //   )}
-          )})
-              }
+              { usertasks: userTasks})
+
+              })
+            }
+
+    postEditedTask = () => {
+
+        API.getAll("tasks")
+            .then(objectList => {
+               const userTasks = objectList.filter(object => parseInt(this.props.activeUser) === object.userId) 
+            this.setState(
+              { usertasks: userTasks})
+
+              })
+    }
+
+
+
 
 
     render() {
         return (
-            <React.Fragment>
-                {/* <div className="TaskButton">
-                    <button type="button"
-                            className="btn btn-success"
-                            onClick={() => {
-                                this.props.history.push("/Tasks/new")}
-                            }>
-                        Create Task
-                    </button>
-                </div> */}
+            <Container>
+
                 <section className="active Tasks">
                 {
                     this.state.usertasks.map(task =>
-                        <TaskCard key={task.id} task={task} {...this.props} />
+                        <TaskCard key={task.id} task={task} {...this.props} postEditedTask={this.postEditedTask} />
                     )
                 }
                 </section>
-                <section className="friend Tasks">
-                {
-                    this.state.friendtasks.map(task =>
-                        <TaskCard key={task.id} task={task} {...this.props} className="friend" />
-                    )
-                }
-                </section>
-            </React.Fragment>
+            </Container>
             )
     }
 }
