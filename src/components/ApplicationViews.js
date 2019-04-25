@@ -148,7 +148,7 @@ class ApplicationViews extends Component {
           }} />
 
         <Route exact path="/news" render={(props) => {
-            return <ArticlesList {...props} activeUser={this.state.activeUser} deleteArticle={this.deleteArticle}/>
+            return <ArticlesList {...props} activeUser={this.state.activeUser}/>
           }}
         />
         {/* <Route path="/news/new" render={(props) => {

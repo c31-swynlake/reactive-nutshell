@@ -83,19 +83,16 @@ class ArticlesList extends Component {
             <div>
                 <ArticleForm {...this.props} addArticle={this.addArticle} activeUser={this.props.activeUser}/>  
                 <Card>
-                    <CardBody>
-                        
-                        <div className="users__articles">
-                            {
-                                this.state.userArticles.map(article => // add {...this.props.deleteArticle}
-                                <TheArticle key={article.id} {...this.props} 
-                                updateArticle={this.updateArticle} 
-                                deleteArticle={this.deleteArticle} 
-                                TheArticle={article} 
-                                activeUser={this.props.activeUser}/>    
-                                )
-                            }
-                        </div>
+                    <CardBody className="users__articles">
+                        {
+                            this.state.userArticles.map(article => // add {...this.props.deleteArticle}
+                            <TheArticle key={article.id} {...this.props} 
+                            updateArticle={this.updateArticle} 
+                            deleteArticle={this.deleteArticle} 
+                            TheArticle={article}
+                            activeUser={this.props.activeUser}/>    
+                            )
+                        }
                     </CardBody>
                     <CardBody className="friends__articles">
                             {

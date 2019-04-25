@@ -1,16 +1,11 @@
 import React, { Component } from 'react'
 import { Route, Redirect } from "react-router-dom"
 import { CardText, CardTitle, Button } from 'reactstrap';
-import ArticleEdit from './ArticlesEdit'
+import ArticlesEdit from './ArticlesEdit'
 import { withRouter } from 'react-router'
 
 class TheArticle extends Component {
 
-
-    handleButton = (event) => {
-        let target = event.target.parentNode
-
-    }
 
     render() {
         return(
@@ -23,7 +18,7 @@ class TheArticle extends Component {
                 </CardText>
                 <Button color="primary"
                 onClick={
-                    <ArticleEdit artticleId={this.props.TheArticle.id} />
+                    <ArticlesEdit articleId={this.props.TheArticle.id} />
                 }
                 >
                 Edit</Button>
