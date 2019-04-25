@@ -33,5 +33,16 @@ export default Object.create(null, {
                 body: JSON.stringify(object)
             }).then(r => r.json())
         }
+    },
+    put: {
+        value: function (object, id) {
+            return fetch(`${remoteURL}/${this.resource}/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(object)
+            }).then(r => r.json())
+        }
     }
 })
