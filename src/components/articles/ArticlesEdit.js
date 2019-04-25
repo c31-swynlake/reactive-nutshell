@@ -32,6 +32,10 @@ export default class ArticlesEdit extends Component {
         })
     }
 
+    onClick = () => {
+        this.props.hideDisplayEditForm();
+    }
+
     // update the article
     updateArticle = event => {
         // prevent the page from going to another page
@@ -39,14 +43,16 @@ export default class ArticlesEdit extends Component {
 
         const editedArticle = {
             id: parseInt(this.props.articleId),
-            userId: this.props.activeUser,
+            userId: parseInt(this.props.activeUser),
             url: this.state.url,
             title: this.state.title,
             synopsis: this.state.synopsis
         }
-
+        this.onClick()
         this.props.updateArticle(editedArticle, this.props.articleId)
     }
+
+
 
     render(){
         return (
@@ -85,7 +91,8 @@ export default class ArticlesEdit extends Component {
                     />
                 </FormGroup>
                 <Button color="primary"
-                    onClick={this.updateArticle}>Add</Button>
+                    onClick={this.updateArticle}
+                        >Add</Button>
             </Form>
         )
     }

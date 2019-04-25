@@ -9,7 +9,7 @@ class TheArticle extends Component {
         displayEditForm: false
     }
 
-    // this function will set the displayEditForm will set the condition to true
+    // this function will set the displayEditForm will set the condition to true and the form will appear
     displayEditComponent = () => {
         console.log("test")
         this.setState({
@@ -18,6 +18,12 @@ class TheArticle extends Component {
     }
 
     // this function will set the displayeditform condition to false and the form will disapper
+    hideDisplayComponent = () => {
+        console.log("hidden valley form ranch")
+        this.setState({
+            displayEditForm: false
+        })
+    }
 
     render() {
         return (
@@ -32,7 +38,7 @@ class TheArticle extends Component {
                     onClick={this.displayEditComponent}
                 >
                     Edit</Button>
-                {this.state.displayEditForm && <ArticlesEdit updateArticle={this.props.updateArticle} articleId={this.props.TheArticle.id} />}
+                {this.state.displayEditForm && <ArticlesEdit activeUser={this.props.activeUser} hideDisplayEditForm={this.hideDisplayComponent} updateArticle={this.props.updateArticle} articleId={this.props.TheArticle.id} />}
                 <Button color="danger"
                     onClick={() => {
                         this.props.deleteArticle(this.props.TheArticle.id)
