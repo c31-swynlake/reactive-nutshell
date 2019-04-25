@@ -19,6 +19,7 @@ export default class Register extends Component {
         this.setState(stateToChange)
     }
 
+    // Function to verify user has filled in all fields and that username and email address are not already taken in the database before registering a new user. Function then directs user to login.
     handleRegister = event => {
         event.preventDefault()
         if (this.state.userName === "") {

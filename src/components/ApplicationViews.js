@@ -14,9 +14,7 @@ import MessageList from "./messages/MessageList"
 // import ArticleManager from "../modules/ArticleManager";
 // import ArticleEdit from './articles/ArticlesEdit'
 
-
-class ApplicationViews extends Component {
-  
+export default class ApplicationViews extends Component {
   state = {
     users: [],
     messages: [],
@@ -25,28 +23,32 @@ class ApplicationViews extends Component {
     activeUser: ""
   }
 
-
   componentDidMount() {
     const newState = {}
     if (this.state.activeUser === "") {
       let key = sessionStorage.getItem("userId")
       API.getAll(`connections?userId=${key}`)
-      .then(friendsList => {
-        let friendsId = friendsList.map(friend => friend.friendId)
-        this.setState({friends: friendsId, activeUser: parseInt(key)})
-        UserManager.all()
+        .then(friendsList => {
+          let friendsId = friendsList.map(friend => friend.friendId)
+          this.setState({ friends: friendsId, activeUser: parseInt(key) })
+          UserManager.all()
+
+            .then(users => newState.users = users)
+            .then(() => ChatManager.all())
+            .then(messages => newState.messages = messages)
+            .then(() => this.setState(newState))
+        })
+    } else {
+      UserManager.all()
         .then(users => newState.users = users)
         .then(() => ChatManager.all())
         .then(messages => newState.messages = messages)
         // .then(() => ArticleManager.all())
         // .then(articles => newState.articles = articles)
         .then(() => this.setState(newState))
-    })} else {
-      UserManager.all()
-      .then(users => newState.users = users)
-      .then(() => this.setState(newState))
-  }
     }
+  }
+
   isAuthenticated = () => {
     if (sessionStorage.getItem("userId") !== null) {
       return true
@@ -80,48 +82,25 @@ class ApplicationViews extends Component {
       })
   }
 
+  putNewMessage = (message, id) => {
+    ChatManager.put(message, id)
+      .then(() => ChatManager.all())
+      .then(messages => {
+        this.setState({
+          messages: messages
+        })
+      })
+  }
+
   updateStorage = (key) => {
     API.getAll(`connections?userId=${key}`)
       .then(friendsList => {
         let friendsId = friendsList.map(friend => friend.friendId)
-        this.setState({friends: friendsId, activeUser: key})
+        this.setState({ friends: friendsId, activeUser: key })
       })
-    
+
   }
 
-  //this function will make a fetch call the articles manager to add and this function will be pass
-  // as a prop to Articles Form
-  // addArticle = (articleObj) =>  {
-  //   ArticleManager.post(articleObj)
-  //   .then(() => ArticleManager.all())
-  //   .then(articles => {
-  //     this.props.history.push("/news")
-  //     this.setState({articles: articles})
-  //   })
-  // }
-
-  // this function will make a fetch call the article manager to make a put request and this function will 
-  // be passed as a prop to Article Edit
-  // updateArticle = (updatedArticleObj, id) => {
-  //   ArticleManager.put(updatedArticleObj, id)
-  //   .then(() => ArticleManager.all())
-  //   .then(articles => {
-  //     this.setState({articles: articles})
-  //     this.props.history.push("/news")
-  //   })
-  // }
-
-  // this function will make a fetch call for the article manager to make a delete request and this function 
-  // will be passed as a prop to article delete
-  // deleteArticle = (id) => {
-  //   ArticleManager.delete(id)
-  //   .then(() => ArticleManager.all())
-  //   .then(articles => {
-  //     console.log(articles)
-  //     this.setState({articles: articles})
-  //     this.props.history.push("/news")
-  //   })
-  // }
 
   render() {
     return (
@@ -165,9 +144,10 @@ class ApplicationViews extends Component {
           }} />
 
         <Route
-          path="/messages" render={props => {
+          exact path="/messages" render={props => {
             if (this.isAuthenticated()) {
-              return <MessageList {...props} messages={this.state.messages} activeUser={this.state.activeUser} users={this.state.users} postNewMessage={this.postNewMessage} />
+              return <MessageList {...props} messages={this.state.messages} activeUser={this.state.activeUser} users={this.state.users} postNewMessage={this.postNewMessage} putNewMessage={this.putNewMessage}
+              />
             } else {
               return <Redirect to="/load" />
             }
