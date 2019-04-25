@@ -9,8 +9,6 @@ import ChatManager from '../modules/ChatManager'
 // import ArticlesList from '../components/articles/ArticlesList'
 import API from "../modules/APICalls"
 import MessageList from "./messages/MessageList"
-import MessageEdit from "./messages/MessageEdit"
-
 
 export default class ApplicationViews extends Component {
   state = {
@@ -43,6 +41,7 @@ export default class ApplicationViews extends Component {
         .then(() => this.setState(newState))
     }
   }
+
   isAuthenticated = () => {
     if (sessionStorage.getItem("userId") !== null) {
       return true
@@ -130,18 +129,10 @@ export default class ApplicationViews extends Component {
           }} />
 
         <Route
-          path="/messages/edit" render={props => {
-            if (this.isAuthenticated()) {
-              return <MessageEdit {...props} messages={this.state.messages} activeUser={this.state.activeUser} users={this.state.users} putNewMessage={this.putNewMessage} />
-            } else {
-              return <Redirect to="/load" />
-            }
-          }} />
-
-        <Route
           exact path="/messages" render={props => {
             if (this.isAuthenticated()) {
-              return <MessageList {...props} messages={this.state.messages} activeUser={this.state.activeUser} users={this.state.users} postNewMessage={this.postNewMessage} />
+              return <MessageList {...props} messages={this.state.messages} activeUser={this.state.activeUser} users={this.state.users} postNewMessage={this.postNewMessage} putNewMessage={this.putNewMessage}
+              />
             } else {
               return <Redirect to="/load" />
             }

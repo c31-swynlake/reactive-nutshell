@@ -18,19 +18,25 @@ export default class MessageIndividual extends Component {
     }
 
     render() {
-        if (this.props.beingEdited === true) {
+        console.log("messageId:", this.props.messageId)
+        console.log("message.id:", this.props.message.id)
+        // debugger
+        if (this.props.messageId === this.props.message.id) {
             return <React.Fragment>
                 <div key={this.props.message.id}>
                     <Input
-                        id={this.props.message.id}
-                        value={this.props.message.message}
+                        type="text"
+                        id="message"
+                        value={this.state.message}
+                        placeholder={this.props.message.message}
+                        onChange={this.handleFieldChange}
                     />
                     <Button
                         id={this.props.message.id}
-                        onClick={this.props.handleEditMessage}
+                        onClick={this.props.handleSaveEditMessage}
                     >
                         Save
-                </Button>
+                    </Button>
                 </div>
             </React.Fragment>
         }
