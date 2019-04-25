@@ -1,5 +1,5 @@
 // Authors: Billy Mathison
-// Page renders login form and when submitted verifies user's information before laoding home page
+// Page renders login form and when submitted verifies user's information before loading home page
 
 import React, { Component } from "react"
 import { Button, Form, FormGroup, Label, Input } from "reactstrap"
@@ -18,6 +18,7 @@ export default class Login extends Component {
         this.setState(stateToChange)
     }
 
+    // Function to verify user has filled in all fields and that userName and password match the databse before logging them in and saving to either session storage or local storage if selected
     handleLogin = event => {
         event.preventDefault()
         let user = this.props.users.find(user => {

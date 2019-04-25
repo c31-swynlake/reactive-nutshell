@@ -1,5 +1,5 @@
 // Authors: Billy Mathison
-// Page renders
+// Page renders chat messages with save and edit functions to messages. Chat limited to maximum of 10 messages.
 
 import React, { Component } from "react"
 import {
@@ -21,6 +21,7 @@ export default class MessageList extends Component {
         this.setState(stateToChange)
     }
 
+    // Function to call postNewMessage from ApplicationViews and POST new message
     handleSaveMessage = event => {
         event.preventDefault()
 
@@ -35,12 +36,14 @@ export default class MessageList extends Component {
         this.setState({ message: "" })
     }
 
+    // Function to load input form to edit user message and save button to save changes
     handleEditMessage = event => {
         event.preventDefault()
         this.setState({ editedMessage: event.target.value })
         this.setState({ messageId: parseInt(event.target.id) })
     }
 
+    // Function to call putNewMessage from ApplicationViews and PUT edited message
     handleSaveEditMessage = event => {
         event.preventDefault()
 
@@ -56,6 +59,7 @@ export default class MessageList extends Component {
     }
 
     render() {
+        // Limiting messageArray to a maximum of 10 messages
         let n = this.props.messages.length
         let messageArray = this.props.messages.slice(0, n)
         if (n >= 10) {
@@ -67,6 +71,7 @@ export default class MessageList extends Component {
                     <CardHeader>Chat Room</CardHeader>
                     <CardBody>
                         {
+                            // Maps through all messages and builds card body
                             messageArray.map(message =>
                                 <MessageIndividual key={message.id} message={message} {...this.props} users={this.props.users} handleEditMessage={this.handleEditMessage} messageId={this.state.messageId} editedMessage={this.state.editedMessage} handleSaveEditMessage={this.handleSaveEditMessage} handleFieldChange={this.handleFieldChange} />
                             )
