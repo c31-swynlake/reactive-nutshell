@@ -100,26 +100,6 @@
       "userId": 3,
       "message": "wowser!",
       "id": 10
-    },
-    {
-      "userId": 6,
-      "message": "nailed it dawg",
-      "id": 11
-    },
-    {
-      "userId": 6,
-      "message": "nailed it dawg",
-      "id": 12
-    },
-    {
-      "userId": 2,
-      "message": "hello",
-      "id": 13
-    },
-    {
-      "userId": 2,
-      "message": "whats up",
-      "id": 14
     }
   ],
   "articles": [

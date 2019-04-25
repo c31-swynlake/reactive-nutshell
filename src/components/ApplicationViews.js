@@ -1,4 +1,5 @@
 import { Route, Redirect } from "react-router-dom";
+// import { withRouter } from 'react-router'
 import React, { Component } from "react";
 import Login from "./authentication/Login";
 import Register from "./authentication/Register";
@@ -6,7 +7,7 @@ import Load from "./authentication/Load";
 // import FriendManager from '../modules/FriendManager'
 import UserManager from "../modules/UserManager";
 import ChatManager from "../modules/ChatManager";
-// import ArticlesList from '../components/articles/ArticlesList'
+import ArticlesList from '../components/articles/ArticlesList'
 import API from "../modules/APICaller";
 import MessageList from "./messages/MessageList";
 import FriendsList from "./friends/FriendsList";
@@ -17,6 +18,7 @@ export default class ApplicationViews extends Component {
     users: [],
     messages: [],
     friends: [],
+    // articles: [],
     activeUser: ""
   }
 
@@ -54,24 +56,26 @@ export default class ApplicationViews extends Component {
   };
 
   removeFriend = (target) => {
-    API.deleteEntry("connections", target).then(()=> {
+    API.deleteEntry("connections", target).then(() => {
       API.getAll(`connections?userId=${this.state.activeUser}`).then(friendsList => {
         let friendsId = friendsList.map(friend => friend.friendId);
-        this.setState({ friends: friendsId})}
-    )
-  })
+        this.setState({ friends: friendsId })
+      }
+      )
+    })
   }
 
   addFriend = (friendId) => {
     let friendObject = {
       "userId": parseInt(this.state.activeUser),
-      "friendId": parseInt(friendId)}
-      API.postOne("connections", friendObject).then(()=> {
+      "friendId": parseInt(friendId)
+    }
+    API.postOne("connections", friendObject).then(() => {
       API.getAll(`connections?userId=${this.state.activeUser}`).then(friendsList => {
         let friendsId = friendsList.map(friend => friend.friendId);
-        this.setState({ friends: friendsId})
-      }) 
-  })
+        this.setState({ friends: friendsId })
+      })
+    })
   }
 
 
@@ -105,7 +109,7 @@ export default class ApplicationViews extends Component {
   componentWillUpdate() {
     if (this.state.activeUser === "") {
       let key = sessionStorage.getItem("userId");
-      this.setState({activeUser: parseInt(key)})
+      this.setState({ activeUser: parseInt(key) })
     }
   }
   putNewMessage = (message, id) => {
@@ -172,9 +176,12 @@ export default class ApplicationViews extends Component {
             } else {
               return <Redirect to="/load" />;
             }
-          }}
-        />
+          }} />
 
+        <Route exact path="/news" render={(props) => {
+          return <ArticlesList {...props} activeUser={this.state.activeUser} />
+        }}
+        />
         <Route
           exact
           path="/news"
@@ -209,7 +216,7 @@ export default class ApplicationViews extends Component {
           render={props => {
             if (this.isAuthenticated()) {
               return (
-                <FriendsList {...props} activeUser={this.state.activeUser} removeFriend={this.removeFriend} addFriend={this.addFriend} friends={this.state.friends}/>
+                <FriendsList {...props} activeUser={this.state.activeUser} removeFriend={this.removeFriend} addFriend={this.addFriend} friends={this.state.friends} />
               );
             } else {
               return <Redirect to="/load" />;
