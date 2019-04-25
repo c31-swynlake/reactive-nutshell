@@ -19,7 +19,7 @@ export default class ApplicationViews extends Component {
     messages: [],
     friends: [],
     activeUser: ""
-  };
+  }
 
   componentDidMount() {
     const newState = {};
@@ -109,6 +109,24 @@ export default class ApplicationViews extends Component {
       this.setState({activeUser: key})
     }
   }
+  putNewMessage = (message, id) => {
+    ChatManager.put(message, id)
+      .then(() => ChatManager.all())
+      .then(messages => {
+        this.setState({
+          messages: messages
+        })
+      })
+  }
+
+  updateStorage = (key) => {
+    API.getAll(`connections?userId=${key}`)
+      .then(friendsList => {
+        let friendsId = friendsList.map(friend => friend.friendId)
+        this.setState({ friends: friendsId, activeUser: key })
+      })
+
+  }
 
 
   render() {
@@ -177,12 +195,10 @@ export default class ApplicationViews extends Component {
         />
 
         <Route
-          path="/friends"
-          render={props => {
+          exact path="/messages" render={props => {
             if (this.isAuthenticated()) {
-              return (
-                <FriendsList {...props} activeUser={this.state.activeUser} removeFriend={this.removeFriend} addFriend={this.addFriend} friends={this.state.friends}/>
-              );
+              return <MessageList {...props} messages={this.state.messages} activeUser={this.state.activeUser} users={this.state.users} postNewMessage={this.postNewMessage} putNewMessage={this.putNewMessage}
+              />
             } else {
               return <Redirect to="/load" />;
             }
@@ -190,17 +206,11 @@ export default class ApplicationViews extends Component {
         />
 
         <Route
-          path="/messages"
+          path="/friends"
           render={props => {
             if (this.isAuthenticated()) {
               return (
-                <MessageList
-                  {...props}
-                  messages={this.state.messages}
-                  activeUser={this.state.activeUser}
-                  users={this.state.users}
-                  postNewMessage={this.postNewMessage}
-                />
+                <FriendsList {...props} activeUser={this.state.activeUser} removeFriend={this.removeFriend} addFriend={this.addFriend} friends={this.state.friends}/>
               );
             } else {
               return <Redirect to="/load" />;
