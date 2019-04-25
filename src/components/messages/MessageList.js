@@ -11,7 +11,8 @@ import MessageIndividual from "./MessageIndividual"
 export default class MessageList extends Component {
     state = {
         message: "",
-        messageId: ""
+        messageId: "",
+        editedMessage: ""
     }
 
     handleFieldChange = event => {
@@ -36,17 +37,22 @@ export default class MessageList extends Component {
 
     handleEditMessage = event => {
         event.preventDefault()
+        this.setState({ editedMessage: event.target.value })
         this.setState({ messageId: parseInt(event.target.id) })
     }
 
     handleSaveEditMessage = event => {
         event.preventDefault()
 
-        // this.props.putNewMessage({
-        //     userId: this.props.activeUser,
-        //     message: this.state.message
-        // }, event.target.id)
-        this.setState({ messageId: "" })
+        if (this.state.editedMessage === "") {
+            window.alert("Please enter a message")
+        } else {
+            this.props.putNewMessage({
+                userId: this.props.activeUser,
+                message: this.state.editedMessage
+            }, event.target.id)
+            this.setState({ messageId: "" })
+        }
     }
 
     render() {
@@ -62,7 +68,7 @@ export default class MessageList extends Component {
                     <CardBody>
                         {
                             messageArray.map(message =>
-                                <MessageIndividual key={message.id} message={message} {...this.props} users={this.props.users} handleEditMessage={this.handleEditMessage} messageId={this.state.messageId} handleSaveEditMessage={this.handleSaveEditMessage} />
+                                <MessageIndividual key={message.id} message={message} {...this.props} users={this.props.users} handleEditMessage={this.handleEditMessage} messageId={this.state.messageId} editedMessage={this.state.editedMessage} handleSaveEditMessage={this.handleSaveEditMessage} handleFieldChange={this.handleFieldChange} />
                             )
                         }
                     </CardBody>

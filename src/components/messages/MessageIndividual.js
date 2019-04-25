@@ -7,29 +7,18 @@ import { Button, Input } from "reactstrap"
 
 
 export default class MessageIndividual extends Component {
-    state = {
-        message: "",
-    }
-
-    handleFieldChange = event => {
-        const stateToChange = {}
-        stateToChange[event.target.id] = event.target.value
-        this.setState(stateToChange)
-    }
 
     render() {
-        console.log("messageId:", this.props.messageId)
-        console.log("message.id:", this.props.message.id)
-        // debugger
+
         if (this.props.messageId === this.props.message.id) {
             return <React.Fragment>
                 <div key={this.props.message.id}>
                     <Input
                         type="text"
-                        id="message"
-                        value={this.state.message}
+                        id="editedMessage"
+                        value={this.props.editedMessage}
                         placeholder={this.props.message.message}
-                        onChange={this.handleFieldChange}
+                        onChange={this.props.handleFieldChange}
                     />
                     <Button
                         id={this.props.message.id}
@@ -47,6 +36,7 @@ export default class MessageIndividual extends Component {
                         {this.props.message.message} {this.props.users.find(user => user.id === this.props.message.userId).userName}
                         <Button
                             id={this.props.message.id}
+                            value={this.props.message.message}
                             onClick={this.props.handleEditMessage}
                         >
                             Edit
