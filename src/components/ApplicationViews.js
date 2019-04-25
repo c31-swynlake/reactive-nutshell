@@ -8,7 +8,6 @@ import UserManager from "../modules/UserManager";
 import ChatManager from "../modules/ChatManager";
 // import ArticlesList from '../components/articles/ArticlesList'
 import API from "../modules/APICaller";
-import TaskList from "./tasks/TaskList";
 import MessageList from "./messages/MessageList";
 import FriendsList from "./friends/FriendsList";
 import Home from "./home/Home";
@@ -65,7 +64,7 @@ export default class ApplicationViews extends Component {
 
   addFriend = (friendId) => {
     let friendObject = {
-      "userId": this.state.activeUser,
+      "userId": parseInt(this.state.activeUser),
       "friendId": parseInt(friendId)}
       API.postOne("connections", friendObject).then(()=> {
       API.getAll(`connections?userId=${this.state.activeUser}`).then(friendsList => {
@@ -226,16 +225,6 @@ export default class ApplicationViews extends Component {
           }}
         />
 
-        {/* <Route
-          path="/tasks"
-          render={props => {
-            if (this.isAuthenticated()) {
-              return <TaskList {...props} activeUser={this.state.activeUser} />;
-            } else {
-              return <Redirect to="/load" />;
-            }
-          }}
-        /> */}
       </React.Fragment>
     );
   }

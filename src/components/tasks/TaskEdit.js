@@ -21,7 +21,7 @@ export default class TaskEdit extends Component {
         // prevent the page from going to another page
         event.preventDefault()
         const editedTask = {
-            userId: this.props.activeUser,
+            userId: parseInt(this.props.activeUser),
             taskName: this.state.taskName,
             targetDate: this.state.targetDate,
             isComplete: this.state.isComplete
