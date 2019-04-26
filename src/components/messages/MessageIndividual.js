@@ -3,7 +3,7 @@
 
 import React, { Component } from "react"
 import { Button, Input } from "reactstrap"
-
+import { Link } from "react-router-dom"
 
 
 export default class MessageIndividual extends Component {
@@ -35,7 +35,8 @@ export default class MessageIndividual extends Component {
             return (
                 <React.Fragment>
                     <div key={this.props.message.id}>
-                        {this.props.message.message} {this.props.users.find(user => user.id === this.props.message.userId).userName}
+                        {this.props.message.message} {" "} {this.props.users.find(user => user.id === this.props.message.userId).userName}
+                        {" "}
                         <Button
                             id={this.props.message.id}
                             value={this.props.message.message}
@@ -51,7 +52,14 @@ export default class MessageIndividual extends Component {
             return (
                 <React.Fragment>
                     <div key={this.props.message.id}>
-                        {this.props.message.message} {this.props.users.find(user => user.id === this.props.message.userId).userName}
+                        {this.props.message.message} {" "}
+                        <Link to="/messages"
+                            onClick={() => {
+                                window.confirm(`Would you like to add ${this.props.users.find(user => user.id === this.props.message.userId).userName} as a friend?`)
+                            }}
+                        >
+                            {this.props.users.find(user => user.id === this.props.message.userId).userName}
+                        </Link>
                     </div>
                 </React.Fragment>
             )
