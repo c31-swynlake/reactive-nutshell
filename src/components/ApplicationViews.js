@@ -1,14 +1,13 @@
 import { Route, Redirect } from "react-router-dom";
-// import { withRouter } from 'react-router'
 import React, { Component } from "react";
 import Login from "./authentication/Login";
 import Register from "./authentication/Register";
 import Load from "./authentication/Load";
-// import FriendManager from '../modules/FriendManager'
 import UserManager from "../modules/UserManager";
 import ChatManager from "../modules/ChatManager";
 import ArticlesList from '../components/articles/ArticlesList'
 import API from "../modules/APICaller";
+import EventList from "./events/EventsList"
 import MessageList from "./messages/MessageList";
 import FriendsList from "./friends/FriendsList";
 import Home from "./home/Home";
@@ -18,7 +17,6 @@ export default class ApplicationViews extends Component {
     users: [],
     messages: [],
     friends: [],
-    // articles: [],
     activeUser: ""
   }
 
@@ -172,22 +170,15 @@ export default class ApplicationViews extends Component {
           render={props => {
             if (this.isAuthenticated()) {
               return <Redirect to="/home" />;
-              // Remove null and return the component which will show list of friends
+
             } else {
               return <Redirect to="/load" />;
             }
           }} />
 
         <Route exact path="/news" render={(props) => {
-          return <ArticlesList {...props} activeUser={this.state.activeUser} />
+          return <ArticlesList {...props} friends={this.state.friends} activeUser={this.state.activeUser} />
         }}
-        />
-        <Route
-          exact
-          path="/news"
-          render={props => {
-            return null;
-          }}
         />
         <Route
           path="/home"
@@ -203,7 +194,7 @@ export default class ApplicationViews extends Component {
         <Route
           exact path="/messages" render={props => {
             if (this.isAuthenticated()) {
-              return <MessageList {...props} messages={this.state.messages} activeUser={this.state.activeUser} users={this.state.users} postNewMessage={this.postNewMessage} putNewMessage={this.putNewMessage}
+              return <MessageList {...props} messages={this.state.messages} activeUser={this.state.activeUser} users={this.state.users} postNewMessage={this.postNewMessage} putNewMessage={this.putNewMessage} friends={this.state.friends}
               />
             } else {
               return <Redirect to="/load" />;
@@ -227,8 +218,11 @@ export default class ApplicationViews extends Component {
         <Route
           path="/events"
           render={props => {
-            return null;
-            // Remove null and return the component which will show the user's events
+            if (this.isAuthenticated()) {
+              return <EventList {...props} activeUser={this.state.activeUser} />;
+            } else {
+              return <Redirect to="/load" />;
+            }
           }}
         />
 

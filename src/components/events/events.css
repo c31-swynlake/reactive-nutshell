@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.Events .card {
+  width: 45%;
+}
+
+.post-event {
+  margin: 20px 20%;
+}
+
